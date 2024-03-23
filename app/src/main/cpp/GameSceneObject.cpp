@@ -3,20 +3,25 @@
 //
 
 #include "GameSceneObject.h"
-#include <chrono>
-#include <thread>
 
-
-
-
-GameSceneObject::GameSceneObject(float timeStep)
+GameSceneObject::GameSceneObject(JavaCppAdapter* adapter)
 {
-    _fixedUpdateTimeStep=timeStep;
-}
+    _javaCppAdapter = adapter;
 
+    _javaCppAdapter->FixedUpdateEvent.Subscribe([this]() {
+        FixedUpdate();
+    });
+}
+GameSceneObject::~GameSceneObject() {
+    _javaCppAdapter->FixedUpdateEvent.Unsubscribe([this]() {
+        FixedUpdate();
+    });
+};
 void GameSceneObject::FixedUpdate()
 {
 
-};
+}
+
+
 
 

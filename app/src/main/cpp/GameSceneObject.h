@@ -4,17 +4,15 @@
 
 #ifndef ARKANOID_GAMESCENEOBJECT_H
 #define ARKANOID_GAMESCENEOBJECT_H
+#include "JavaCppAdapter.h"
 
-
-class GameSceneObject {
-
-    private:
-        float _fixedUpdateTimeStep;
-        void FixedUpdate();
-
+class GameSceneObject{
     public:
-        GameSceneObject(float timeStep);
-
+        GameSceneObject(JavaCppAdapter* adapter);
+        ~GameSceneObject();
+    protected:
+        JavaCppAdapter* _javaCppAdapter;
+        virtual void FixedUpdate();
 };
 
 

@@ -3,6 +3,7 @@ package com.example.Arkanoid;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.TextView;
 
 import com.example.Arkanoid.databinding.ActivityMainBinding;
@@ -14,27 +15,57 @@ public class MainActivity extends AppCompatActivity {
         System.loadLibrary("Arkanoid");
     }
 
-    private ActivityMainBinding binding;
+    private ActivityMainBinding _binding;
+    private Handler _handler;
+    private Runnable _updateRunnable;
+
+    private TextView _tv;
+    private static final int _updateCycleDelayMs=16;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        _binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(_binding.getRoot());
 
-        CreateGameSceneObject(16F);
+        _tv = _binding.sampleText;
+
+        InitiateJavaCppAdapter();
 
         // Example of a call to a native method
-        TextView tv = binding.sampleText;
-        tv.setText(stringFromJNI("test"));
+        //TextView tv = binding.sampleText;
+        //tv.setText(stringFromJNI("test"));
+
+        StartUpdateCycle(_updateCycleDelayMs);
 
     }
+    private void StartUpdateCycle(int updateCycleDelay)
+    {
+        _handler = new Handler();
+        _updateRunnable = new Runnable() {
+            @Override
+            public void run() {
+                FixedUpdate();
 
-    /**
-     * A native method that is implemented by the 'Arkanoid' native library,
-     * which is packaged with this application.
-     */
+                _handler.postDelayed(this, updateCycleDelay);
+            }
+        };
+
+        _handler.postDelayed(_updateRunnable, updateCycleDelay);
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        _handler.removeCallbacks(_updateRunnable);
+    }
+
+    public void NativeUpdateScore(int score)
+    {
+        _tv.setText(String.valueOf(score));
+    }
     public native String stringFromJNI(String param);
-    public native void CreateGameSceneObject(Float jupdateTimer);
+    public native void InitiateJavaCppAdapter();
+    public native void FixedUpdate();
+
 }

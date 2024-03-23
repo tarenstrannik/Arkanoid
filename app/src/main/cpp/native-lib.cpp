@@ -1,6 +1,9 @@
 #include <jni.h>
 #include <string>
 #include "GameSceneObject.h"
+#include "GameManager.h"
+
+GameManager _gameManager;
 
 extern "C" JNIEXPORT jstring
 
@@ -20,11 +23,36 @@ Java_com_example_Arkanoid_MainActivity_stringFromJNI(
 extern "C" JNIEXPORT void
 
 JNICALL
-Java_com_example_Arkanoid_MainActivity_CreateGameSceneObject(
+Java_com_example_Arkanoid_MainActivity_CreateGameManager(
         JNIEnv *env,
-        jobject /* this */,
-        jfloat jupdateTimer) {
-    float updateTimer=static_cast<float>(jupdateTimer);
+        jobject /* this */
+        ) {
 
-    GameSceneObject gameSceneObject(updateTimer);
+        _gameManager = GameManager();
+
+}
+
+extern "C" JNIEXPORT void
+
+JNICALL
+Java_com_example_Arkanoid_MainActivity_FixedUpdate(
+        JNIEnv *env,
+        jobject /* this */
+) {
+    _gameManager.FixedUpdate();
+}
+
+extern "C" JNIEXPORT void
+
+JNICALL
+        Java_com_example_Arkanoid_MainActivity_NativeUpdateScore(
+                JNIEnv *env,
+                jobject mainActivityInstance/* this */,
+                int score
+        ) {
+
+    const jclass  mainActivityCls = env->GetObjectClass(mainActivityInstance);
+    const jmethodID methodID =
+            env->GetMethodID(mainActivityInstance, "NativeUpdateScore", "(I)V");
+    if(methodID == nullptr)
 }

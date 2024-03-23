@@ -5,9 +5,15 @@
 #ifndef ARKANOID_GAMEMANAGER_H
 #define ARKANOID_GAMEMANAGER_H
 
+#include "GameSceneObject.h"
 
-class GameManager {
-
+class GameManager : public GameSceneObject {
+    private:
+        int _score;
+    protected:
+        void FixedUpdate() override;
+    public:
+        GameManager(JavaCppAdapter* adapter);
 };
 
 
