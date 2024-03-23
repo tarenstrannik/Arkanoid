@@ -23,14 +23,18 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        CreateGameSceneObject(16F);
+
         // Example of a call to a native method
         TextView tv = binding.sampleText;
-        tv.setText(stringFromJNI());
+        tv.setText(stringFromJNI("test"));
+
     }
 
     /**
      * A native method that is implemented by the 'Arkanoid' native library,
      * which is packaged with this application.
      */
-    public native String stringFromJNI();
+    public native String stringFromJNI(String param);
+    public native void CreateGameSceneObject(Float jupdateTimer);
 }
