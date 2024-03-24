@@ -31,6 +31,11 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
         JavaCppAdapter.cpp
         GameSceneObject.cpp
         GameManager.cpp
+        Structures/Vector2.cpp
+        Structures/Color.cpp
+        Figure.cpp
+        MovableObject.cpp
+        Player.cpp
 )
 
 # Specifies libraries CMake should link to your target library. You

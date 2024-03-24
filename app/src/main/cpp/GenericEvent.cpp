@@ -1,4 +1,5 @@
 #include "GenericEvent.h"
+#include "Structures/Vector2.h"
 
 template<typename... Args>
 void GenericEvent<Args...>::Subscribe(const EventCallback& callback) {
@@ -20,3 +21,4 @@ void GenericEvent<Args...>::Invoke(Args... args) {
 }
 //список темплейтов
 template class GenericEvent<>;
+template class GenericEvent<Vector2>;
