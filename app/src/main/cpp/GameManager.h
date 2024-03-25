@@ -8,9 +8,11 @@
 #include "GameSceneObject.h"
 #include "Structures/Vector2.h"
 #include "Enums/Shapes.h"
-#include "Player.h"
-#include "Ball.h"
 
+#include "Ball.h"
+#include "UIManager.h"
+class UIManager;
+class Player;
 
 class GameManager : public GameSceneObject {
     private:
@@ -19,7 +21,7 @@ class GameManager : public GameSceneObject {
         int _lastId;
         int _playerLives;
         int _playerScore;
-
+        UIManager* _uiManager;
         std::list<Figure> _gameObjectsToCollideWith;
         int CreateObjectId();
         Player* _player;
@@ -30,8 +32,8 @@ class GameManager : public GameSceneObject {
         void FixedUpdate() override;
     public:
         GameManager(JavaCppAdapter* adapter, Vector2 fieldSize, float deltaTime);
-        GenericEvent<int> LossEvent;
-
+        GenericEvent<int> RoundLossEvent;
+        GenericEvent<int> UpdateScoreEvent;
     void PlayerLoss();
 };
 

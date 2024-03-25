@@ -3,14 +3,19 @@
 //
 
 #include "Player.h"
-Player::Player(JavaCppAdapter *adapter, int id, Shapes shape, Vector2 position, Vector2 size,
+
+Player::Player(JavaCppAdapter *adapter, GameManager* gameManager, int id, Shapes shape, Vector2 position, Vector2 size,
                Color color, bool registerTouch, Vector2 fieldSize, Vector2 prevPosition, Vector2 velocity, float deltaTime) :
                Figure(adapter, id, shape, position, size, color, registerTouch), MovableObject(fieldSize,velocity,deltaTime)
 
 {
+    _gameManager=gameManager;
     _prevPosition=prevPosition;
     _setPosition=Figure::_javaCppAdapter->TouchEvent.Subscribe([this](Vector2 position) {
         SetPosition(position);
+    });
+    gameManager->RoundLossEvent.Subscribe([this](int value){
+       ResetPosition(value);
     });
 }
 
@@ -46,5 +51,9 @@ void Player::UpdateVelocity() {
     Vector2 newVelocity = (_position - _prevPosition) / _deltaTime;
     Player::SetVelocity(newVelocity);
     _prevPosition=_position;
-    _javaCppAdapter->UpdateScore((int)Player::GetVelocity().x);
+}
+
+void Player::ResetPosition(int value)
+{
+    Player::SetPosition(_startPosition);
 }

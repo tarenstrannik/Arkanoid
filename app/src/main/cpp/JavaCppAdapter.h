@@ -15,6 +15,7 @@ class JavaCppAdapter {
     jobject _activityObj;
 public:
     void UpdateScore(int newScore);
+    void UpdateLives(int newLives);
     void CreateFigure(
             int id,
             int shapeType,

@@ -7,14 +7,17 @@
 
 #include "Figure.h"
 #include "MovableObject.h"
+#include "GameManager.h"
 
-
+class GameManager;
 class Player: public Figure, public MovableObject {
 private:
     using CallbackID = std::size_t;
     CallbackID _setPosition;
     Vector2 _prevPosition;
     void UpdateVelocity();
+    GameManager* _gameManager;
+    void ResetPosition(int value);
 protected:
     void FixedUpdate() override;
     void SetPosition(Vector2 position) override;
@@ -22,11 +25,9 @@ protected:
 
 public:
     Player(
-           JavaCppAdapter *adapter, int id, Shapes shape, Vector2 position, Vector2 size,
+           JavaCppAdapter* adapter, GameManager* gameManager, int id, Shapes shape, Vector2 position, Vector2 size,
            Color color, bool registerTouch, Vector2 fieldSize,Vector2 prevPosition, Vector2 velocity,float deltaTime);
     ~Player();
-
-
 };
 
 

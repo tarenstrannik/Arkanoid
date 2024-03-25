@@ -37,6 +37,8 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
         MovableObject.cpp
         Player.cpp
         Ball.cpp
+        UIManager.cpp
+        StaticClasses/Random.cpp
 )
 
 # Specifies libraries CMake should link to your target library. You

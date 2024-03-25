@@ -3,11 +3,15 @@
 //
 
 #include "Ball.h"
+#include "StaticClasses/Random.h"
+
 Ball::Ball(JavaCppAdapter *adapter, int id, Shapes shape, Vector2 position, Vector2 size,
-               Color color, bool registerTouch, Vector2 fieldSize, Vector2 velocity, float deltaTime) :
+               Color color, bool registerTouch, Vector2 fieldSize, Vector2 velocity, float startVelocityMagnitude,
+               float deltaTime) :
         Figure(adapter, id, shape, position, size, color, registerTouch), MovableObject(fieldSize,velocity,deltaTime)
 
 {
+    _startVelocityMagnitude=startVelocityMagnitude;
     _fieldSize=fieldSize;
     _startMovement= Figure::_javaCppAdapter->TouchEvent.Subscribe([this](Vector2 position) {
         StartMovement();
@@ -46,7 +50,9 @@ void Ball::ConstraintRestrictions() {
 
 void Ball::StartMovement() {
     Figure::_javaCppAdapter->TouchEvent.Unsubscribe(_startMovement);
-    SetVelocity(Vector2(0,-300));
+    auto velocityX= Random::Range(-_startVelocityMagnitude,_startVelocityMagnitude);
+    auto velocityY=sqrtf(pow(_startVelocityMagnitude,2) - pow(velocityX,2));
+    SetVelocity(Vector2(velocityX,-velocityY));
 }
 
 void Ball::Move() {

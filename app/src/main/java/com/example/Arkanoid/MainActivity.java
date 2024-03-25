@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void NativeUpdateLives(int lives)
     {
-        _uiManager.UpdateScore(lives);
+        _uiManager.UpdateLives(lives);
     }
     public void NativeCreateFigure(
             int id,

@@ -17,13 +17,14 @@ private:
     bool IsCollisionWithFloor();
     CallbackID _startMovement;
     void ResetBall();
+    float _startVelocityMagnitude;
 protected:
     void FixedUpdate() override;
     void ConstraintRestrictions() override;
 public:
     Ball(
             JavaCppAdapter *adapter, int id, Shapes shape, Vector2 position, Vector2 size,
-    Color color, bool registerTouch, Vector2 fieldSize, Vector2 velocity,float deltaTime);
+    Color color, bool registerTouch, Vector2 fieldSize, Vector2 velocity, float startVelocityMagnitude, float deltaTime);
     ~Ball();
     void StartMovement();
     GenericEvent<> LossEvent;

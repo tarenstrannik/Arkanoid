@@ -3,6 +3,7 @@
 //
 
 #include "GameManager.h"
+
 #include "Structures/Color.h"
 #include "Player.h"
 
@@ -12,16 +13,18 @@ GameManager::GameManager(JavaCppAdapter* adapter, Vector2 fieldSize, float delta
     _gameObjectsToCollideWith={};
     _fieldSize=fieldSize;
     _deltaTime=deltaTime;
-    CreatePlayer();
-    CreateBall();
+
     _playerLives = 3;
     _playerScore = 0;
+    _uiManager=new UIManager(_javaCppAdapter,this,_playerLives,_playerScore);
+
+    CreatePlayer();
+    CreateBall();
+
 }
 void GameManager::FixedUpdate()
 {
     GameSceneObject::FixedUpdate();
-
-    _javaCppAdapter->UpdateScore(_fieldSize.x);
 }
 void GameManager::CreatePlayer()
 {
@@ -33,7 +36,7 @@ void GameManager::CreatePlayer()
     auto playerY = _fieldSize.y*0.9f;
     auto playerColor = Color(100,100,0);
     auto playerVelocity = Vector2(0,0);
-    _player = new Player(_javaCppAdapter,playerID,playerShape,
+    _player = new Player(_javaCppAdapter, this,playerID,playerShape,
                    Vector2(playerX,playerY),Vector2(playerXSize,playerYSize),
                    playerColor,true,_fieldSize, Vector2(playerX,playerY),
                    Vector2(0,0),_deltaTime);
@@ -48,10 +51,11 @@ void GameManager::CreateBall()
     auto ballY = _fieldSize.y*0.8f;
     auto ballColor = Color(0,100,255);
     auto ballVelocity = Vector2(0,0);
+    auto startVelocityMagnitude=300.0f;
     _ball = new Ball(_javaCppAdapter,ballID,ballShape,
                      Vector2(ballX,ballY),Vector2(ballXSize,ballYSize),
                      ballColor,false,_fieldSize,
-                     Vector2(0,0),_deltaTime);
+                     Vector2(0,0),startVelocityMagnitude,_deltaTime);
     _ball->LossEvent.Subscribe([this]() {
         PlayerLoss();
     });
@@ -65,5 +69,5 @@ int GameManager::CreateObjectId()
 void GameManager::PlayerLoss()
 {
     _playerLives--;
-    LossEvent.Invoke(_playerLives);
+    RoundLossEvent.Invoke(_playerLives);
 }
