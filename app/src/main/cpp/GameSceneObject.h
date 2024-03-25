@@ -7,12 +7,14 @@
 #include "JavaCppAdapter.h"
 
 class GameSceneObject{
+    using CallbackID = std::size_t;
     public:
         GameSceneObject(JavaCppAdapter* adapter);
         ~GameSceneObject();
     protected:
         JavaCppAdapter* _javaCppAdapter;
         virtual void FixedUpdate();
+        CallbackID _fixedUpdate;
 };
 
 

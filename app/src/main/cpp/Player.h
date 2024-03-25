@@ -6,19 +6,27 @@
 #define ARKANOID_PLAYER_H
 
 #include "Figure.h"
+#include "MovableObject.h"
 
 
-class Player: public Figure {
+class Player: public Figure, public MovableObject {
 private:
-    Vector2 _fieldSize;
+    using CallbackID = std::size_t;
+    CallbackID _setPosition;
+    Vector2 _prevPosition;
+    void UpdateVelocity();
 protected:
     void FixedUpdate() override;
     void SetPosition(Vector2 position) override;
+    void ConstraintRestrictions() override;
+
 public:
     Player(
            JavaCppAdapter *adapter, int id, Shapes shape, Vector2 position, Vector2 size,
-           Color color, bool registerTouch, Vector2 fieldSize);
+           Color color, bool registerTouch, Vector2 fieldSize,Vector2 prevPosition, Vector2 velocity,float deltaTime);
     ~Player();
+
+
 };
 
 

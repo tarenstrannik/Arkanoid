@@ -15,6 +15,7 @@ class Figure: public GameSceneObject {
         int _id;
         Shapes _shape;
         Vector2 _position;
+        Vector2 _startPosition;
         Vector2 _size;
         Color _color;
         bool _registerTouch;
@@ -22,6 +23,7 @@ class Figure: public GameSceneObject {
         virtual void SetPosition(Vector2 position);
         virtual Vector2 GetPosition();
         virtual Vector2 GetVisualPosition(Vector2 position);
+        virtual void ConstraintRestrictions();
     public:
         Figure(JavaCppAdapter* adapter,
                int id,

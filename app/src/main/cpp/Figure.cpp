@@ -14,6 +14,7 @@ Figure::Figure(JavaCppAdapter* adapter, int id,
     _id=id;
     _shape=shape;
     _position=position;
+    _startPosition=position;
     _size=size;
     _color=color;
     _registerTouch=registerTouch;
@@ -32,7 +33,6 @@ void Figure::FixedUpdate()
 void Figure::SetPosition(Vector2 position)
 {
     _position=position;
-
     _javaCppAdapter->SetPosition(_id,GetVisualPosition(position));
 }
 Vector2 Figure::GetVisualPosition(Vector2 position)
@@ -42,4 +42,8 @@ Vector2 Figure::GetVisualPosition(Vector2 position)
 
 Vector2 Figure::GetPosition() {
     return _position;
+}
+
+void Figure::ConstraintRestrictions() {
+
 }

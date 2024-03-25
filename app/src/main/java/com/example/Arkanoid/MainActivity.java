@@ -34,7 +34,8 @@ public class MainActivity extends AppCompatActivity {
         _uiManager = new UIManager(_binding.LivesValue, _binding.ScoreValue);
         Point viewAreaSize = DisplayUtils.GetScreenSize(this);
         InitiateJavaCppAdapter();
-        InitiateCPPGameManager(viewAreaSize.x,viewAreaSize.y);
+        float deltaTime= (float) _updateCycleDelayMs /1000;
+        InitiateCPPGameManager(viewAreaSize.x,viewAreaSize.y,deltaTime);
         StartUpdateCycle(_updateCycleDelayMs);
     }
     private void StartUpdateCycle(int updateCycleDelay)
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         _visualManager.SetFigurePosition(id, new Point(positionX,positionY));
     }
     public native void InitiateJavaCppAdapter();
-    public native void InitiateCPPGameManager(int width, int height);
+    public native void InitiateCPPGameManager(int width, int height, float deltaTime);
     public native void FixedUpdate();
 
     public native void NativeProcessTouch(int x, int y);

@@ -29,9 +29,10 @@ Java_com_example_Arkanoid_MainActivity_InitiateCPPGameManager(
         JNIEnv *env,
         jobject instance/* this */,
         int width,
-        int height
+        int height,
+        float deltaTime
 ) {
-    GameManager* gameManager = new GameManager(g_javaCppAdapter, Vector2((float)width,(float)height));
+    GameManager* gameManager = new GameManager(g_javaCppAdapter, Vector2((float)width,(float)height), deltaTime);
 }
 extern "C" JNIEXPORT void JNICALL
     Java_com_example_Arkanoid_MainActivity_FixedUpdate(

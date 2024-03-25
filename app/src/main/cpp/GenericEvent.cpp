@@ -2,15 +2,21 @@
 #include "Structures/Vector2.h"
 
 template<typename... Args>
-void GenericEvent<Args...>::Subscribe(const EventCallback& callback) {
+typename GenericEvent<Args...>::CallbackID GenericEvent<Args...>::Subscribe(const EventCallback& callback) {
+    CallbackID id = _nextID++;
     _callbacks.push_back(callback);
+    _callbackIDs.push_back(id);
+    return id;
 }
 
 template<typename... Args>
-void GenericEvent<Args...>::Unsubscribe(const EventCallback& callback) {
-    _callbacks.remove_if([&callback](const EventCallback& storedCallback) {
-        return &callback == &storedCallback;
-    });
+void GenericEvent<Args...>::Unsubscribe(CallbackID id) {
+    auto it = std::find(_callbackIDs.begin(), _callbackIDs.end(), id);
+    if (it != _callbackIDs.end()) {
+        size_t index = std::distance(_callbackIDs.begin(), it);
+        _callbacks.erase(_callbacks.begin() + index);
+        _callbackIDs.erase(it);
+    }
 }
 
 template<typename... Args>
@@ -21,4 +27,5 @@ void GenericEvent<Args...>::Invoke(Args... args) {
 }
 //список темплейтов
 template class GenericEvent<>;
+template class GenericEvent<int>;
 template class GenericEvent<Vector2>;

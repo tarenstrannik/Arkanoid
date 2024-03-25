@@ -5,13 +5,21 @@
 #include "MovableObject.h"
 
 MovableObject::MovableObject(
-               Vector2 position,
-               Vector2 prevPosition,
+               Vector2 fieldSize,
+               Vector2 velocity,
                float deltaTime
                )
 {
-    _position=position;
-    _prevPosition=position;
+    _fieldSize=fieldSize;
+    _velocity=velocity;
     _deltaTime=deltaTime;
+}
+
+Vector2 MovableObject::GetVelocity() {
+    return _velocity;
+}
+
+void MovableObject::SetVelocity(Vector2 velocity) {
+    _velocity=velocity;
 }
 

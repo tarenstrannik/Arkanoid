@@ -4,28 +4,47 @@
 
 #include "Player.h"
 Player::Player(JavaCppAdapter *adapter, int id, Shapes shape, Vector2 position, Vector2 size,
-               Color color, bool registerTouch, Vector2 fieldSize) :
-               Figure(adapter, id, shape, position, size, color, registerTouch)
+               Color color, bool registerTouch, Vector2 fieldSize, Vector2 prevPosition, Vector2 velocity, float deltaTime) :
+               Figure(adapter, id, shape, position, size, color, registerTouch), MovableObject(fieldSize,velocity,deltaTime)
 
 {
-    _fieldSize=fieldSize;
-    Figure::_javaCppAdapter->TouchEvent.Subscribe([this](Vector2 position) {
+    _prevPosition=prevPosition;
+    _setPosition=Figure::_javaCppAdapter->TouchEvent.Subscribe([this](Vector2 position) {
         SetPosition(position);
     });
 }
 
 Player::~Player(){
-        Figure::_javaCppAdapter->TouchEvent.Unsubscribe([this](Vector2 position) {
-            SetPosition(position);
-        });
+        Figure::_javaCppAdapter->TouchEvent.Unsubscribe(_setPosition);
 }
 void Player::FixedUpdate()
 {
     Figure::FixedUpdate();
+    Player::ConstraintRestrictions();
+    Player::UpdateVelocity();
 }
 
 void Player::SetPosition(Vector2 position)
 {
-    auto playerPosition= GetPosition();
-    Figure::SetPosition(Vector2(position.x,playerPosition.y));
+    _position= Vector2(position.x,_position.y);
+    Figure::SetPosition(_position);
+}
+
+void Player::ConstraintRestrictions() {
+    Figure::ConstraintRestrictions();
+    if(_position.x<=_size.x/2)
+    {
+        SetPosition(Vector2(_size.x/2,_position.y));
+    }
+    else if(_position.x>=_fieldSize.x-_size.x/2)
+    {
+        SetPosition(Vector2(_fieldSize.x-_size.x/2,_position.y));
+    }
+}
+
+void Player::UpdateVelocity() {
+    Vector2 newVelocity = (_position - _prevPosition) / _deltaTime;
+    Player::SetVelocity(newVelocity);
+    _prevPosition=_position;
+    _javaCppAdapter->UpdateScore((int)Player::GetVelocity().x);
 }
