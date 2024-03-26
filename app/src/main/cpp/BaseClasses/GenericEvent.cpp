@@ -1,6 +1,6 @@
 #include "GenericEvent.h"
-#include "Structures/Vector2.h"
-#include "Brick.h"
+#include "../Structures/Vector2.h"
+#include "../ScreenObjects/Brick.h"
 
 template<typename... Args>
 typename GenericEvent<Args...>::CallbackID GenericEvent<Args...>::Subscribe(const EventCallback& callback) {
@@ -19,7 +19,11 @@ void GenericEvent<Args...>::Unsubscribe(CallbackID id) {
         _callbackIDs.erase(it);
     }
 }
-
+template<typename... Args>
+void GenericEvent<Args...>::UnsubscribeAll() {
+    _callbacks.clear();
+    _callbackIDs.clear();
+}
 template<typename... Args>
 void GenericEvent<Args...>::Invoke(Args... args) {
     for (const auto& callback : _callbacks) {

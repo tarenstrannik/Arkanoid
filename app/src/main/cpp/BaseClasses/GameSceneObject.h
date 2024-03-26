@@ -4,7 +4,7 @@
 
 #ifndef ARKANOID_GAMESCENEOBJECT_H
 #define ARKANOID_GAMESCENEOBJECT_H
-#include "JavaCppAdapter.h"
+#include "../Managers/JavaCppAdapter.h"
 
 class GameSceneObject{
     using CallbackID = std::size_t;

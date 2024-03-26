@@ -60,7 +60,7 @@ public class VisualManager {
                 v.clearFocus();
                 int globalX= (int)v.getX()+x;
                 int globalY= (int)v.getY()+y;
-                _main.NativeProcessTouch(globalX,globalY);
+                _main.AdapterProcessTouch(globalX,globalY);
 
                 return true;
             }

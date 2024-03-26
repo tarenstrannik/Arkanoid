@@ -8,6 +8,7 @@
 JavaCppAdapter::JavaCppAdapter(JNIEnv* env, jobject activityObj) : _env(env), _activityObj(activityObj)
 {
     OnFixedUpdate = GenericEvent<>();
+    OnRestartGame = GenericEvent<>();
     OnTouch = GenericEvent<Vector2>();
 }
 
@@ -16,7 +17,7 @@ jobject g_mainActivityObj;
 JavaCppAdapter* g_javaCppAdapter = nullptr;
 
 extern "C" JNIEXPORT void JNICALL
-    Java_com_example_Arkanoid_MainActivity_InitiateJavaCppAdapter(
+    Java_com_example_Arkanoid_MainActivity_AdapterInitiateJavaCppAdapter(
         JNIEnv *env,
         jobject instance/* this */
 ) {
@@ -25,17 +26,17 @@ extern "C" JNIEXPORT void JNICALL
     g_javaCppAdapter = new JavaCppAdapter(g_env, g_mainActivityObj);
 }
 extern "C" JNIEXPORT void JNICALL
-Java_com_example_Arkanoid_MainActivity_InitiateCPPGameManager(
+Java_com_example_Arkanoid_MainActivity_AdapterInitiateCPPGameManager(
         JNIEnv *env,
         jobject instance/* this */,
         int width,
         int height,
         float deltaTime
 ) {
-    GameManager* gameManager = new GameManager(g_javaCppAdapter, Vector2((float)width,(float)height), deltaTime);
+    GameManager* gameManager = new GameManager(g_javaCppAdapter, Vector2((float)width, (float)height), deltaTime);
 }
 extern "C" JNIEXPORT void JNICALL
-    Java_com_example_Arkanoid_MainActivity_FixedUpdate(
+    Java_com_example_Arkanoid_MainActivity_AdapterFixedUpdate(
         JNIEnv *env,
         jobject /* this */
 ) {
@@ -58,11 +59,18 @@ void JavaCppAdapter::UpdateLives(int newLives) {
     g_env->CallVoidMethod(g_mainActivityObj, methodID, newLives);
 }
 extern "C" JNIEXPORT void JNICALL
-Java_com_example_Arkanoid_MainActivity_NativeProcessTouch(JNIEnv *env, jobject , int x,
+Java_com_example_Arkanoid_MainActivity_AdapterProcessTouch(JNIEnv *env, jobject , int x,
                                                           int y) {
     if (g_javaCppAdapter != nullptr)
     {
         g_javaCppAdapter->OnTouch.Invoke(Vector2(x, y));
+    }
+}
+extern "C" JNIEXPORT void JNICALL
+Java_com_example_Arkanoid_MainActivity_AdapterRestartGame(JNIEnv *env, jobject) {
+    if (g_javaCppAdapter != nullptr)
+    {
+        g_javaCppAdapter->OnRestartGame.Invoke();
     }
 }
 void JavaCppAdapter::CreateFigure(
@@ -105,6 +113,12 @@ void JavaCppAdapter::DestroyFigure(int id) {
     jclass clazz = g_env->GetObjectClass(g_mainActivityObj);
     jmethodID methodID = g_env->GetMethodID(clazz, "NativeDestroyFigure", "(I)V");
     g_env->CallVoidMethod(g_mainActivityObj, methodID, id);
+}
+
+void JavaCppAdapter::GameOver(int score) {
+    jclass clazz = g_env->GetObjectClass(g_mainActivityObj);
+    jmethodID methodID = g_env->GetMethodID(clazz, "NativeGameOver", "(I)V");
+    g_env->CallVoidMethod(g_mainActivityObj, methodID, score);
 }
 
 

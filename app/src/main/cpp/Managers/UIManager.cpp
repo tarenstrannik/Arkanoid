@@ -3,8 +3,9 @@
 //
 
 #include "UIManager.h"
+#include "GameManager.h"
 
-UIManager::UIManager(JavaCppAdapter* adapter,GameManager* gameManager, int lives, int score)
+UIManager::UIManager(JavaCppAdapter* adapter, GameManager* gameManager, int lives, int score)
 {
     _javaCppAdapter=adapter;
     _gameManager=gameManager;

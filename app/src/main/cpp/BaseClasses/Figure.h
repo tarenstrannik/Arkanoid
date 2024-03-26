@@ -5,9 +5,9 @@
 #ifndef ARKANOID_FIGURE_H
 #define ARKANOID_FIGURE_H
 #include "GameSceneObject.h"
-#include "Structures/Vector2.h"
-#include "Structures/Color.h"
-#include "Enums/Shapes.h"
+#include "../Structures/Vector2.h"
+#include "../Structures/Color.h"
+#include "../Enums/Shapes.h"
 
 
 class Figure: public GameSceneObject {

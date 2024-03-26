@@ -6,7 +6,7 @@
 #define ARKANOID_MOVABLEOBJECT_H
 
 #include "GameSceneObject.h"
-#include "Structures/Vector2.h"
+#include "../Structures/Vector2.h"
 
 class MovableObject{
     protected:

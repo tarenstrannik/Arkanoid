@@ -5,7 +5,8 @@
 #ifndef ARKANOID_UIMANAGER_H
 #define ARKANOID_UIMANAGER_H
 
-#include "GameManager.h"
+#include "JavaCppAdapter.h"
+
 class GameManager;
 
 class UIManager {

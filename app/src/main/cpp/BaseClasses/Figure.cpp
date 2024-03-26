@@ -24,7 +24,11 @@ Figure::Figure(JavaCppAdapter* adapter, int id,
                                    size.x,size.y,color.r,color.g,color.b,
                                    registerTouch);
 }
-
+Figure::~Figure()
+{
+    _javaCppAdapter->DestroyFigure(_id);
+    GameSceneObject::~GameSceneObject();
+}
 void Figure::FixedUpdate()
 {
     GameSceneObject::FixedUpdate();
@@ -46,11 +50,6 @@ Vector2 Figure::GetPosition() {
 
 void Figure::ConstraintRestrictions() {
 
-}
-
-Figure::~Figure() {
-    _javaCppAdapter-> DestroyFigure(_id);
-    GameSceneObject::~GameSceneObject();
 }
 
 float Figure::GetTopBorder() {

@@ -3,6 +3,7 @@
 //
 
 #include "Player.h"
+#include "../Managers/GameManager.h"
 
 Player::Player(JavaCppAdapter *adapter, GameManager* gameManager, int id, Shapes shape, Vector2 position, Vector2 size,
                Color color, bool registerTouch, Vector2 fieldSize, Vector2 prevPosition, Vector2 velocity, float deltaTime) :
@@ -11,14 +12,18 @@ Player::Player(JavaCppAdapter *adapter, GameManager* gameManager, int id, Shapes
 {
     _gameManager=gameManager;
     _prevPosition=prevPosition;
+    _topBorder=position.y-_size.y/2;
+    _bottomBorder=position.y+_size.y/2;
     _setPosition=Figure::_javaCppAdapter->OnTouch.Subscribe([this](Vector2 position) {
         SetPosition(position);
     });
-    gameManager->OnRoundLoss.Subscribe([this](int value){
+    _gameManager->OnRoundLoss.Subscribe([this](int value){
        ResetPosition(value);
     });
-    _topBorder=position.y-_size.y/2;
-    _bottomBorder=position.y+_size.y/2;
+    _gameManager->OnNewRound.Subscribe([this](){
+        ResetPosition(0);
+    });
+
 }
 
 Player::~Player(){

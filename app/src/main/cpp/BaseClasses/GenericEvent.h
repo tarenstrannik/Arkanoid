@@ -13,7 +13,7 @@ public:
     CallbackID Subscribe(const EventCallback& callback);
     void Unsubscribe(CallbackID id);
     void Invoke(Args... args);
-
+    void UnsubscribeAll();
 private:
     std::vector<EventCallback> _callbacks;
     std::vector<CallbackID> _callbackIDs;

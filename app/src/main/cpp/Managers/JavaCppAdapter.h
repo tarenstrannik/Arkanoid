@@ -6,8 +6,8 @@
 #define ARKANOID_JAVACPPADAPTER_H
 
 #include <jni.h>
-#include "GenericEvent.h"
-#include "Structures/Vector2.h"
+#include "../BaseClasses/GenericEvent.h"
+#include "../Structures/Vector2.h"
 
 class JavaCppAdapter {
     private:
@@ -33,8 +33,9 @@ public:
     ~JavaCppAdapter();
 
     GenericEvent<> OnFixedUpdate;
+    GenericEvent<> OnRestartGame;
     GenericEvent<Vector2> OnTouch;
-
+    void GameOver(int score);
     void SetPosition(int id,Vector2 position);
 };
 

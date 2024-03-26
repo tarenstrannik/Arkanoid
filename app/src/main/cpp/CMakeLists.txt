@@ -27,19 +27,20 @@ project("Arkanoid")
 add_library(${CMAKE_PROJECT_NAME} SHARED
         # List C/C++ source files with relative paths to this CMakeLists.txt.
         #native-lib.cpp
-        GenericEvent.cpp
-        JavaCppAdapter.cpp
-        GameSceneObject.cpp
-        GameManager.cpp
+        BaseClasses/GenericEvent.cpp
+        Managers/JavaCppAdapter.cpp
+        BaseClasses/GameSceneObject.cpp
+        Managers/GameManager.cpp
         Structures/Vector2.cpp
         Structures/Color.cpp
-        Figure.cpp
-        MovableObject.cpp
-        Player.cpp
-        Ball.cpp
-        Brick.cpp
-        UIManager.cpp
+        BaseClasses/Figure.cpp
+        BaseClasses/MovableObject.cpp
+        ScreenObjects/Player.cpp
+        ScreenObjects/Ball.cpp
+        ScreenObjects/Brick.cpp
+        Managers/UIManager.cpp
         StaticClasses/Random.cpp
+        Managers/BrickFactory.cpp
 )
 
 # Specifies libraries CMake should link to your target library. You

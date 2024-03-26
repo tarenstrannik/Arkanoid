@@ -3,22 +3,27 @@
 //
 
 #include "Ball.h"
-#include "StaticClasses/Random.h"
-#include "GameManager.h"
+#include "../StaticClasses/Random.h"
+#include "../Managers/GameManager.h"
+
 Ball::Ball(JavaCppAdapter *adapter, GameManager* gameManager, int id, Shapes shape, Vector2 position, Vector2 size,
-               Color color, bool registerTouch, Vector2 fieldSize, Vector2 velocity, float startVelocityMagnitude,
-               float deltaTime) :
+           Color color, bool registerTouch, Vector2 fieldSize, Vector2 velocity, float startVelocityMagnitude,
+           float velocityIncrement,
+           float deltaTime) :
         Figure(adapter, id, shape, position, size, color, registerTouch), MovableObject(fieldSize,velocity,deltaTime)
 
 {
     _gameManager=gameManager;
     _startVelocityMagnitude=startVelocityMagnitude;
     _fieldSize=fieldSize;
-    _startMovement= Figure::_javaCppAdapter->OnTouch.Subscribe([this](Vector2 position) {
-        StartMovement();
-    });
-    _gameManager->OnFigureCollision.Subscribe([this](Figure* figure){
+    _velocityIncrement=velocityIncrement;
+    OnLoss=GenericEvent<>();
+
+    _gameManager->OnFigureCollisionCheck.Subscribe([this](Figure* figure){
         CheckCollision(figure);
+    });
+    _gameManager->OnNewRound.Subscribe([this](){
+        ResetBall();
     });
 }
 
@@ -102,8 +107,16 @@ void Ball::CheckCollision(Figure* figure)
     {
         return;
     }
+
     auto curVelocity= GetVelocity();
     Vector2 newVelocity;
+
+    if (Brick* brick = dynamic_cast<Brick*>(figure))
+    {
+        curVelocity *=_velocityIncrement;
+        brick->Collide();
+    }
+
     if(ballLeft>=figureLeft&& ballRight<=figureRight)
     {
         newVelocity=Vector2(curVelocity.x,-curVelocity.y);
@@ -119,12 +132,7 @@ void Ball::CheckCollision(Figure* figure)
     if (MovableObject* movable = dynamic_cast<MovableObject*>(figure))
     {
         auto playerVelocity=movable->GetVelocity();
-        if(playerVelocity.x!=0)
-        {
-            auto aaa = playerVelocity;
-        }
         newVelocity += movable->GetVelocity();
     }
     SetVelocity(newVelocity);
-
 }

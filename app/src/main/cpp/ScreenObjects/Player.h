@@ -5,9 +5,8 @@
 #ifndef ARKANOID_PLAYER_H
 #define ARKANOID_PLAYER_H
 
-#include "Figure.h"
-#include "MovableObject.h"
-#include "GameManager.h"
+#include "../BaseClasses/Figure.h"
+#include "../BaseClasses/MovableObject.h"
 
 class GameManager;
 class Player: public Figure, public MovableObject {
@@ -27,8 +26,8 @@ protected:
 
 public:
     Player(
-           JavaCppAdapter* adapter, GameManager* gameManager, int id, Shapes shape, Vector2 position, Vector2 size,
-           Color color, bool registerTouch, Vector2 fieldSize,Vector2 prevPosition, Vector2 velocity,float deltaTime);
+            JavaCppAdapter* adapter, GameManager* gameManager, int id, Shapes shape, Vector2 position, Vector2 size,
+            Color color, bool registerTouch, Vector2 fieldSize, Vector2 prevPosition, Vector2 velocity, float deltaTime);
     ~Player();
     float GetTopBorder() override;
     float GetBottomBorder() override;
