@@ -15,6 +15,9 @@ struct Vector2 {
     Vector2 operator-(const Vector2& other) const;
     Vector2 operator*(float scalar) const;
     Vector2 operator/(float scalar) const;
+    Vector2 operator-() const;
+    Vector2& operator+=(const Vector2& other);
+    Vector2& operator-=(const Vector2& other);
 };
 
 #endif //ARKANOID_VECTOR2_H

@@ -7,8 +7,8 @@
 
 JavaCppAdapter::JavaCppAdapter(JNIEnv* env, jobject activityObj) : _env(env), _activityObj(activityObj)
 {
-    FixedUpdateEvent = GenericEvent<>();
-    TouchEvent = GenericEvent<Vector2>();
+    OnFixedUpdate = GenericEvent<>();
+    OnTouch = GenericEvent<Vector2>();
 }
 
 JNIEnv* g_env;
@@ -41,7 +41,7 @@ extern "C" JNIEXPORT void JNICALL
 ) {
     if (g_javaCppAdapter != nullptr)
     {
-        g_javaCppAdapter->FixedUpdateEvent.Invoke();
+        g_javaCppAdapter->OnFixedUpdate.Invoke();
     }
 }
 
@@ -62,7 +62,7 @@ Java_com_example_Arkanoid_MainActivity_NativeProcessTouch(JNIEnv *env, jobject ,
                                                           int y) {
     if (g_javaCppAdapter != nullptr)
     {
-        g_javaCppAdapter->TouchEvent.Invoke(Vector2(x, y));
+        g_javaCppAdapter->OnTouch.Invoke(Vector2(x, y));
     }
 }
 void JavaCppAdapter::CreateFigure(
@@ -98,6 +98,13 @@ void JavaCppAdapter::SetPosition(int id, Vector2 position) {
     jclass clazz = g_env->GetObjectClass(g_mainActivityObj);
     jmethodID methodID = g_env->GetMethodID(clazz, "NativeSetPosition", "(III)V");
     g_env->CallVoidMethod(g_mainActivityObj, methodID, id, (int)position.x,(int)position.y);
+}
+
+void JavaCppAdapter::DestroyFigure(int id) {
+
+    jclass clazz = g_env->GetObjectClass(g_mainActivityObj);
+    jmethodID methodID = g_env->GetMethodID(clazz, "NativeDestroyFigure", "(I)V");
+    g_env->CallVoidMethod(g_mainActivityObj, methodID, id);
 }
 
 

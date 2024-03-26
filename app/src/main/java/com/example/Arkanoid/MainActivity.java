@@ -88,6 +88,10 @@ public class MainActivity extends AppCompatActivity {
                 Color.rgb(colorR,colorG,colorB),
                 registerTouch);
     }
+    public void NativeDestroyFigure(int id)
+    {
+        _visualManager.DestroyFigure(id);
+    }
     public void NativeSetPosition(int id, int positionX, int positionY)
     {
         _visualManager.SetFigurePosition(id, new Point(positionX,positionY));

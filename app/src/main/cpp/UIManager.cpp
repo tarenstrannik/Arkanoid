@@ -10,10 +10,10 @@ UIManager::UIManager(JavaCppAdapter* adapter,GameManager* gameManager, int lives
     _gameManager=gameManager;
     _startScore=score;
     _startLives=lives;
-    _gameManager->RoundLossEvent.Subscribe([this](int lives) {
+    _gameManager->OnRoundLoss.Subscribe([this](int lives) {
         SetLives(lives);
     });
-    _gameManager->UpdateScoreEvent.Subscribe([this](int score) {
+    _gameManager->OnUpdateScore.Subscribe([this](int score) {
         SetScore(score);
     });
     ResetUI();

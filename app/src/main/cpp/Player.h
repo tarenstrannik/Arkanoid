@@ -18,6 +18,8 @@ private:
     void UpdateVelocity();
     GameManager* _gameManager;
     void ResetPosition(int value);
+    float _topBorder;
+    float _bottomBorder;
 protected:
     void FixedUpdate() override;
     void SetPosition(Vector2 position) override;
@@ -28,6 +30,8 @@ public:
            JavaCppAdapter* adapter, GameManager* gameManager, int id, Shapes shape, Vector2 position, Vector2 size,
            Color color, bool registerTouch, Vector2 fieldSize,Vector2 prevPosition, Vector2 velocity,float deltaTime);
     ~Player();
+    float GetTopBorder() override;
+    float GetBottomBorder() override;
 };
 
 

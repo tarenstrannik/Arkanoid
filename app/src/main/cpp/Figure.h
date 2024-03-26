@@ -24,6 +24,7 @@ class Figure: public GameSceneObject {
         virtual Vector2 GetPosition();
         virtual Vector2 GetVisualPosition(Vector2 position);
         virtual void ConstraintRestrictions();
+
     public:
         Figure(JavaCppAdapter* adapter,
                int id,
@@ -32,8 +33,11 @@ class Figure: public GameSceneObject {
                 Vector2 size=Vector2(0,0),
                 Color color=Color(0,0,0),
                 bool registerTouch=false);
-
-
+        ~Figure();
+        virtual float GetTopBorder();
+        virtual float GetBottomBorder();
+        virtual float GetLeftBorder();
+        virtual float GetRightBorder();
 };
 
 #endif //ARKANOID_FIGURE_H

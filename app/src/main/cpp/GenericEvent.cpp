@@ -1,5 +1,6 @@
 #include "GenericEvent.h"
 #include "Structures/Vector2.h"
+#include "Brick.h"
 
 template<typename... Args>
 typename GenericEvent<Args...>::CallbackID GenericEvent<Args...>::Subscribe(const EventCallback& callback) {
@@ -29,3 +30,4 @@ void GenericEvent<Args...>::Invoke(Args... args) {
 template class GenericEvent<>;
 template class GenericEvent<int>;
 template class GenericEvent<Vector2>;
+template class GenericEvent<Figure*>;

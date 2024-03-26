@@ -11,16 +11,18 @@ Player::Player(JavaCppAdapter *adapter, GameManager* gameManager, int id, Shapes
 {
     _gameManager=gameManager;
     _prevPosition=prevPosition;
-    _setPosition=Figure::_javaCppAdapter->TouchEvent.Subscribe([this](Vector2 position) {
+    _setPosition=Figure::_javaCppAdapter->OnTouch.Subscribe([this](Vector2 position) {
         SetPosition(position);
     });
-    gameManager->RoundLossEvent.Subscribe([this](int value){
+    gameManager->OnRoundLoss.Subscribe([this](int value){
        ResetPosition(value);
     });
+    _topBorder=position.y-_size.y/2;
+    _bottomBorder=position.y+_size.y/2;
 }
 
 Player::~Player(){
-        Figure::_javaCppAdapter->TouchEvent.Unsubscribe(_setPosition);
+        Figure::_javaCppAdapter->OnTouch.Unsubscribe(_setPosition);
 }
 void Player::FixedUpdate()
 {
@@ -56,4 +58,12 @@ void Player::UpdateVelocity() {
 void Player::ResetPosition(int value)
 {
     Player::SetPosition(_startPosition);
+}
+
+float Player::GetTopBorder() {
+    return _topBorder;
+}
+
+float Player::GetBottomBorder() {
+    return _bottomBorder;
 }

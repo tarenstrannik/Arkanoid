@@ -28,12 +28,12 @@ public:
             int colorB,
             bool registerTouch
     );
-
+    void DestroyFigure(int id);
     JavaCppAdapter(JNIEnv* env, jobject activityObj);
     ~JavaCppAdapter();
 
-    GenericEvent<> FixedUpdateEvent;
-    GenericEvent<Vector2> TouchEvent;
+    GenericEvent<> OnFixedUpdate;
+    GenericEvent<Vector2> OnTouch;
 
     void SetPosition(int id,Vector2 position);
 };

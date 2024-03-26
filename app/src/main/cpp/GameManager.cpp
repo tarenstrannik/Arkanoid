@@ -6,6 +6,7 @@
 
 #include "Structures/Color.h"
 #include "Player.h"
+#include "Ball.h"
 
 GameManager::GameManager(JavaCppAdapter* adapter, Vector2 fieldSize, float deltaTime) : GameSceneObject(adapter)
 {
@@ -25,6 +26,20 @@ GameManager::GameManager(JavaCppAdapter* adapter, Vector2 fieldSize, float delta
 void GameManager::FixedUpdate()
 {
     GameSceneObject::FixedUpdate();
+
+    //перебираем все колл фигуры и вызываем событие ончекколижн
+    for (auto figure : _gameObjectsToCollideWith) {
+        // Вызов события OnFigureCollision для каждого элемента
+        OnFigureCollision.Invoke(figure);
+    }
+    // на событие подписан болл, который проверяет для каждого коллизию
+    //если коллихзия то изменение скорости (также с проверкой если плеер то плюсуем скорость плеера)
+    // и затем проверка является ли наследником класса брик
+    // если да то вызывает функцию в брик "коллайд"
+    // коллайд вызывает событие брик коллайд (инт) на которое подписан гейм менеджер и выполняет обработку (уничтожает
+    // блок или изменяет его и т.п.
+    //при уничтожении вызывается событие он дестрой, на которое подписан гейм менеджер. он тогда удаляет брик из списка проверки коллизий
+
 }
 void GameManager::CreatePlayer()
 {
@@ -40,6 +55,7 @@ void GameManager::CreatePlayer()
                    Vector2(playerX,playerY),Vector2(playerXSize,playerYSize),
                    playerColor,true,_fieldSize, Vector2(playerX,playerY),
                    Vector2(0,0),_deltaTime);
+    _gameObjectsToCollideWith.push_back(dynamic_cast<Figure*>(_player));
 }
 void GameManager::CreateBall()
 {
@@ -52,11 +68,11 @@ void GameManager::CreateBall()
     auto ballColor = Color(0,100,255);
     auto ballVelocity = Vector2(0,0);
     auto startVelocityMagnitude=300.0f;
-    _ball = new Ball(_javaCppAdapter,ballID,ballShape,
+    _ball = new Ball(_javaCppAdapter,this,ballID,ballShape,
                      Vector2(ballX,ballY),Vector2(ballXSize,ballYSize),
                      ballColor,false,_fieldSize,
                      Vector2(0,0),startVelocityMagnitude,_deltaTime);
-    _ball->LossEvent.Subscribe([this]() {
+    _ball->OnLoss.Subscribe([this]() {
         PlayerLoss();
     });
 }
@@ -69,5 +85,5 @@ int GameManager::CreateObjectId()
 void GameManager::PlayerLoss()
 {
     _playerLives--;
-    RoundLossEvent.Invoke(_playerLives);
+    OnRoundLoss.Invoke(_playerLives);
 }

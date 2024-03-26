@@ -47,3 +47,24 @@ Vector2 Figure::GetPosition() {
 void Figure::ConstraintRestrictions() {
 
 }
+
+Figure::~Figure() {
+    _javaCppAdapter-> DestroyFigure(_id);
+    GameSceneObject::~GameSceneObject();
+}
+
+float Figure::GetTopBorder() {
+    return GetPosition().y-_size.y/2;
+}
+
+float Figure::GetBottomBorder() {
+    return GetPosition().y+_size.y/2;
+}
+
+float Figure::GetLeftBorder() {
+    return GetPosition().x-_size.x/2;
+}
+
+float Figure::GetRightBorder() {
+    return GetPosition().x+_size.x/2;
+}

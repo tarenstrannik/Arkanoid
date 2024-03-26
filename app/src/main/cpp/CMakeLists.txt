@@ -37,6 +37,7 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
         MovableObject.cpp
         Player.cpp
         Ball.cpp
+        Brick.cpp
         UIManager.cpp
         StaticClasses/Random.cpp
 )

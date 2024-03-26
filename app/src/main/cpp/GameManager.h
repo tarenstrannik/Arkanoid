@@ -9,11 +9,14 @@
 #include "Structures/Vector2.h"
 #include "Enums/Shapes.h"
 
-#include "Ball.h"
+
 #include "UIManager.h"
+#include "Figure.h"
+
 class UIManager;
 class Player;
-
+class Brick;
+class Ball;
 class GameManager : public GameSceneObject {
     private:
         Vector2 _fieldSize;
@@ -22,7 +25,7 @@ class GameManager : public GameSceneObject {
         int _playerLives;
         int _playerScore;
         UIManager* _uiManager;
-        std::list<Figure> _gameObjectsToCollideWith;
+        std::list<Figure*> _gameObjectsToCollideWith;
         int CreateObjectId();
         Player* _player;
         void CreatePlayer();
@@ -32,8 +35,9 @@ class GameManager : public GameSceneObject {
         void FixedUpdate() override;
     public:
         GameManager(JavaCppAdapter* adapter, Vector2 fieldSize, float deltaTime);
-        GenericEvent<int> RoundLossEvent;
-        GenericEvent<int> UpdateScoreEvent;
+        GenericEvent<int> OnRoundLoss;
+        GenericEvent<int> OnUpdateScore;
+        GenericEvent<Figure*> OnFigureCollision;
     void PlayerLoss();
 };
 
