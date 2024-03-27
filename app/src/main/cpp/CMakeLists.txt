@@ -30,6 +30,7 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
         BaseClasses/GenericEvent.cpp
         Managers/JavaCppAdapter.cpp
         BaseClasses/GameSceneObject.cpp
+        BaseClasses/Manager.cpp
         Managers/GameManager.cpp
         Structures/Vector2.cpp
         Structures/Color.cpp

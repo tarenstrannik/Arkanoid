@@ -7,16 +7,12 @@
 
 
 #include "../ScreenObjects/Brick.h"
-#include "../Structures/Parameters.h"
 #include<list>
+#include "../BaseClasses/Manager.h"
 
-class BrickFactory {
+class BrickFactory: public Manager {
 protected:
-    JavaCppAdapter* _javaCppAdapter;
-    GameManager* _gameManager;
-    Parameters* _parameters;
     Vector2* _fieldSize;
-
     std::list<Brick*> _bricks;
     void Generate();
     Brick* CreateBrick(Vector2 position, Vector2 size);

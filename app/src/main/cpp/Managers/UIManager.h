@@ -5,19 +5,14 @@
 #ifndef ARKANOID_UIMANAGER_H
 #define ARKANOID_UIMANAGER_H
 
-#include "JavaCppAdapter.h"
-#include "../Structures/Parameters.h"
+#include "../BaseClasses/Manager.h"
 
 class GameManager;
 
-class UIManager {
-private:
-    JavaCppAdapter* _javaCppAdapter;
-    GameManager* _gameManager;
-    Parameters* _parameters;
+class UIManager: public Manager {
+protected:
     void SetScore(int score);
     void SetLives(int lives);
-
 public:
     UIManager(JavaCppAdapter* adapter, GameManager* gameManager,Parameters* parameters);
     void ResetUI();

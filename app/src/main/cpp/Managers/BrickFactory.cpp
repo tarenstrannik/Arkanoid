@@ -3,15 +3,12 @@
 //
 
 #include "BrickFactory.h"
-#include "GameManager.h"
 
-BrickFactory::BrickFactory(JavaCppAdapter* adapter, GameManager* gameManager, Parameters* parameters,Vector2* fieldSize)
+
+BrickFactory::BrickFactory(JavaCppAdapter* adapter, GameManager* gameManager, Parameters* parameters,Vector2* fieldSize):
+        Manager(adapter,gameManager,parameters)
 {
-    _javaCppAdapter=adapter;
-    _gameManager=gameManager;
-    _parameters=parameters;
     _fieldSize=fieldSize;
-
     OnBrickCreation = GenericEvent<Brick*>();
     _gameManager->OnNewRound.Subscribe([this]() {
         Generate();

@@ -21,7 +21,7 @@ private:
     Vector2 _fieldSize;
     float _deltaTime;
     int _lastId;
-    //playerparams
+
     Parameters* _parameters;
     void CreateUIManager();
     UIManager *_uiManager;

@@ -3,13 +3,10 @@
 //
 
 #include "UIManager.h"
-#include "GameManager.h"
 
-UIManager::UIManager(JavaCppAdapter* adapter, GameManager* gameManager,Parameters* parameters)
+UIManager::UIManager(JavaCppAdapter* adapter, GameManager* gameManager,Parameters* parameters):
+Manager(adapter,gameManager,parameters)
 {
-    _javaCppAdapter=adapter;
-    _gameManager=gameManager;
-    _parameters=parameters;
     _gameManager->OnRoundLoss.Subscribe([this](int lives) {
         SetLives(lives);
     });
