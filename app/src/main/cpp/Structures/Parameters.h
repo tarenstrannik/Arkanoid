@@ -27,7 +27,6 @@ struct Parameters {
     Color _ballColor = Color(0, 100, 255);
     float _ballStartVelocityMagnitude = 300.0f;
     float _ballMaxStartAngleToVertical=45.0f;
-    float _ballVelocityIncrement = 1.1f;
     //bricks factory params
     int _rows = 5;
     int _columns = 5;
@@ -36,9 +35,7 @@ struct Parameters {
     float _brickDecreasingCoef=0.9f;//to let space between bricks
     float _brickWidthToHeight=2;
     Shapes _brickShape=Shapes::RECTANGLE;
-    Color _brickColor = Color(100,0,100);
-    int _brickPrice=1;
-    int _brickLives=1;
+
 };
 
 

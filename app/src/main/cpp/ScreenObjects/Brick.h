@@ -18,9 +18,17 @@ protected:
     float _bottomBorder;
     float _leftBorder;
     float _rightBorder;
-    int _price;
+
+    int _startPrice=1;
+    int _startLives=1;
+    Color _startColor=Color(100,0,100);
+    float _startVelocityMultiplicator=1.1f;
+
+    int _curPrice;
     int _curLives;
+    float _curVelocityMultiplicator;
     void FixedUpdate() override;
+
 public:
     GenericEvent<Brick*> OnDestroy;
     Brick(JavaCppAdapter* adapter, GameManager* gameManager, Parameters* parameters, int id,
@@ -33,6 +41,8 @@ public:
     virtual void Collide();
     GenericEvent<int> OnCollision;
     void Destroy();
+    float GetVelocityMultiplicator();
+    virtual void ResetBrick();
 };
 
 

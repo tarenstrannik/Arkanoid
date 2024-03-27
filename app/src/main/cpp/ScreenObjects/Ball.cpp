@@ -119,7 +119,7 @@ void Ball::CheckCollision(Figure* figure)
 
     if (Brick* brick = dynamic_cast<Brick*>(figure))
     {
-        curVelocity *=_parameters->_ballVelocityIncrement;
+        curVelocity *=brick->GetVelocityMultiplicator();
         brick->Collide();
     }
 

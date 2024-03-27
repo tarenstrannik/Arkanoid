@@ -24,7 +24,7 @@ class Figure: public GameSceneObject {
         virtual Vector2 GetPosition();
         virtual Vector2 GetVisualPosition(Vector2 position);
         virtual void ConstraintRestrictions();
-
+        void SetColor(Color color);
     public:
         Figure(JavaCppAdapter* adapter,
                int id,

@@ -8,6 +8,7 @@
 #include <jni.h>
 #include "../BaseClasses/GenericEvent.h"
 #include "../Structures/Vector2.h"
+#include "../Structures/Color.h"
 
 class JavaCppAdapter {
     private:
@@ -38,6 +39,7 @@ public:
     GenericEvent<Vector2> OnTouch;
     void GameOver(int score);
     void SetPosition(int id,Vector2 position);
+    void SetColor(int id,Color color);
 };
 
 

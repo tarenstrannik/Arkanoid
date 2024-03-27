@@ -67,3 +67,8 @@ float Figure::GetLeftBorder() {
 float Figure::GetRightBorder() {
     return GetPosition().x+_size.x/2;
 }
+
+void Figure::SetColor(Color color) {
+    _color=color;
+    _javaCppAdapter->SetColor(_id,color);
+}

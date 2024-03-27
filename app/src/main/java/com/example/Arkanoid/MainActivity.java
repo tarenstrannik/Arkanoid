@@ -110,6 +110,10 @@ public class MainActivity extends AppCompatActivity {
                 Color.rgb(colorR,colorG,colorB),
                 registerTouch);
     }
+    public void NativeSetFigureColor(int id, int colorR,int colorG,int colorB)
+    {
+        _visualManager.SetFigureColor(id,Color.rgb(colorR,colorG,colorB));
+    }
     public void NativeDestroyFigure(int id)
     {
         _visualManager.DestroyFigure(id);

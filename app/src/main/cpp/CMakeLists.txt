@@ -39,6 +39,8 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
         ScreenObjects/Player.cpp
         ScreenObjects/Ball.cpp
         ScreenObjects/Brick.cpp
+        ScreenObjects/Brick2Lives.cpp
+        ScreenObjects/Brick3Lives.cpp
         Managers/UIManager.cpp
         StaticClasses/Random.cpp
         Managers/BrickFactory.cpp

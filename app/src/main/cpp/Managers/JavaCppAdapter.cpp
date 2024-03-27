@@ -126,4 +126,15 @@ void JavaCppAdapter::GameOver(int score) {
     g_env->CallVoidMethod(g_mainActivityObj, methodID, score);
 }
 
+void JavaCppAdapter::SetColor(int id,Color color) {
+    jclass clazz = g_env->GetObjectClass(g_mainActivityObj);
+    jmethodID methodID = g_env->GetMethodID(clazz, "NativeSetFigureColor", "(IIII)V");
+    g_env->CallVoidMethod(g_mainActivityObj, methodID,
+                          id,
+                          color.r,
+                          color.g,
+                          color.b
+    );
+}
+
 
