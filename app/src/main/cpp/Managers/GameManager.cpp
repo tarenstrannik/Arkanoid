@@ -21,6 +21,7 @@ GameManager::GameManager(JavaCppAdapter* adapter, Vector2 fieldSize, float delta
     OnUpdateScore=GenericEvent<int>();
     OnFigureCollisionCheck= GenericEvent<Figure*>();
     OnNewRound = GenericEvent<>();
+    OnGameOver = GenericEvent<>();
 
     _javaCppAdapter->OnRestartGame.Subscribe([this]() {
         RestartGame();
@@ -35,7 +36,7 @@ void GameManager::FixedUpdate()
 {
     GameSceneObject::FixedUpdate();
 
-    if(_gameObjectsToCollideWith.size()==1)
+    if(_gameObjectsToCollideWith.size()==1 &&!_isGameOver)
     {
         OnNewRound.Invoke();
         return;
@@ -98,13 +99,15 @@ void GameManager::PlayerLoss()
 void GameManager::CreateBrickFactory() {
     _brickFactory=new BrickFactory(_javaCppAdapter,this,_fieldSize,
                                    _rows,_columns);
-    _brickFactory->OnFigureCreation.Subscribe([this](Figure* figure) {
+    _brickFactory->OnBrickCreation.Subscribe([this](Figure* figure) {
 
         _gameObjectsToCollideWith.push_back(figure);
         if(Brick* brick = dynamic_cast<Brick*>(figure))
         {
             brick->OnDestroy.Subscribe([this](Figure* figure) {
-                _gameObjectsToCollideWith.remove(figure);
+                _gameObjectsToCollideWith.erase(std::remove(_gameObjectsToCollideWith.begin(),
+                                                            _gameObjectsToCollideWith.end(),
+                                                            figure), _gameObjectsToCollideWith.end());
             });
             brick->OnCollision.Subscribe([this](int count) {
                 _playerScore += count;
@@ -117,6 +120,8 @@ void GameManager::CreateBrickFactory() {
 }
 
 void GameManager::GameOver() {
+    _isGameOver=true;
+    OnGameOver.Invoke();
     _javaCppAdapter->GameOver(_playerScore);
 }
 
@@ -125,7 +130,9 @@ void GameManager::CreateUIManager() {
 }
 
 void GameManager::RestartGame() {
+    _isGameOver=false;
     _playerScore=0;
     _playerLives=_startPlayerLives;
+    _uiManager->ResetUI();
     OnNewRound.Invoke();
 }

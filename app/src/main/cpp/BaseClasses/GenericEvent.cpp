@@ -35,3 +35,4 @@ template class GenericEvent<>;
 template class GenericEvent<int>;
 template class GenericEvent<Vector2>;
 template class GenericEvent<Figure*>;
+template class GenericEvent<Brick*>;

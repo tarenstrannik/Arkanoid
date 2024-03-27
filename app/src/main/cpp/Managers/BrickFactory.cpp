@@ -13,10 +13,12 @@ BrickFactory::BrickFactory(JavaCppAdapter* adapter, GameManager* gameManager, Ve
     _rows=rows;
     _columns=columns;
 
-    OnFigureCreation = GenericEvent<Figure*>();
+    OnBrickCreation = GenericEvent<Brick*>();
     _gameManager->OnNewRound.Subscribe([this]() {
-        Clear();
         Generate();
+    });
+    _gameManager->OnGameOver.Subscribe([this]() {
+        Clear();
     });
 
 }
@@ -31,26 +33,27 @@ void BrickFactory::Generate()
             Vector2 curPosition=Vector2(rowOffset*((float)i+0.5f),columnOffset*((float)j+0.5f));
             auto brick=CreateBrick(curPosition,brickSize,_color,_price,_price);
             _bricks.push_back(brick);
-            OnFigureCreation.Invoke(brick);
+
+            OnBrickCreation.Invoke(brick);
         }
 }
-Figure *BrickFactory::CreateBrick(Vector2 position, Vector2 size, Color color,int price,int lives) {
+Brick* BrickFactory::CreateBrick(Vector2 position, Vector2 size, Color color,int price,int lives) {
     auto brickID=_gameManager->CreateObjectId();
     auto brickShape = Shapes::RECTANGLE;
 
     Brick* brick = new Brick(_javaCppAdapter, _gameManager, _gameManager->CreateObjectId(),
                              brickShape, position, size,
                              color, false, price, lives);
-    brick->OnDestroy.Subscribe([this](Figure* figure) {
-        _bricks.remove(figure);
+    brick->OnDestroy.Subscribe([this](Brick* brick) {
+        _bricks.erase(std::remove(_bricks.begin(), _bricks.end(), brick), _bricks.end());
     });
     return brick;
 }
 
 void BrickFactory::Clear() {
-    for(Figure* brick: _bricks)
+    while(!_bricks.empty())
     {
-        delete brick;
+        _bricks.back()->Destroy();
     }
 }
 

@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(_binding.getRoot());
         FrameLayout _container = findViewById(R.id.GameArea);
         _visualManager = new VisualManager( this, _container);
-        _uiManager = new UIManager(_binding.LivesValue, _binding.ScoreValue);
+        _uiManager = new UIManager(this,_binding.LivesValue, _binding.ScoreValue);
         Point viewAreaSize = DisplayUtils.GetScreenSize(this);
         AdapterInitiateJavaCppAdapter();
         float deltaTime= (float) _updateCycleDelayMs /1000;
@@ -99,7 +99,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void NativeGameOver(int score)
     {
-
+        _uiManager.DisplayGameOverScreen(score);
+    };
+    public void NativeExitGame()
+    {
+        finish();
     };
     public native void AdapterInitiateJavaCppAdapter();
     public native void AdapterInitiateCPPGameManager(int width, int height, float deltaTime);

@@ -26,7 +26,7 @@ private:
     float _playerStartPositionX = 0.5f;//from screen width
     float _playerStartPositionY = 0.9f;//from screen height
     Color _playerColor = Color(100, 100, 0);
-    int _playerLives = 3;
+    int _playerLives = 1;
     int _startPlayerLives;
     int _playerScore = 0;
 
@@ -55,6 +55,8 @@ private:
     void CreateBrickFactory();
     void GameOver();
     void RestartGame();
+
+    bool _isGameOver=false;
 protected:
     void FixedUpdate() override;
 
@@ -69,5 +71,6 @@ public:
 
     void PlayerLoss();
     GenericEvent<> OnNewRound;
+    GenericEvent<> OnGameOver;
 };
 #endif //ARKANOID_GAMEMANAGER_H

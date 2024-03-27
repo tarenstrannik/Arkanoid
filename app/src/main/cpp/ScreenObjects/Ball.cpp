@@ -23,7 +23,13 @@ Ball::Ball(JavaCppAdapter *adapter, GameManager* gameManager, int id, Shapes sha
         CheckCollision(figure);
     });
     _gameManager->OnNewRound.Subscribe([this](){
-        ResetBall();
+        ResetBall(0);
+    });
+    _gameManager->OnRoundLoss.Subscribe([this](int value){
+        ResetBall(value);
+    });
+    _gameManager->OnGameOver.Subscribe([this](){
+        Figure::_javaCppAdapter->OnTouch.Unsubscribe(_startMovement);
     });
 }
 
@@ -52,7 +58,6 @@ void Ball::ConstraintRestrictions() {
     }
     else if(IsCollisionWithFloor())
     {
-        ResetBall();
         OnLoss.Invoke();
     }
 }
@@ -81,7 +86,7 @@ bool Ball::IsCollisionWithFloor() {
     return _position.y>=_fieldSize.y-_size.y/2;
 }
 
-void Ball::ResetBall()
+void Ball::ResetBall(int value)
 {
     SetVelocity(Vector2(0,0));
     SetPosition(_startPosition);

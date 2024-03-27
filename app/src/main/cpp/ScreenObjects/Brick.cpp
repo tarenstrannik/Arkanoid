@@ -21,7 +21,7 @@ Brick::Brick(JavaCppAdapter* adapter, GameManager* gameManager, int id, Shapes s
     _price=price;
     _curLives=lives;
     OnCollision = GenericEvent<int>();
-    OnDestroy = GenericEvent<Figure*>();
+    OnDestroy = GenericEvent<Brick*>();
 }
 
 float Brick::GetTopBorder() {
@@ -44,13 +44,16 @@ void Brick::Collide()
 {
     _curLives--;
     OnCollision.Invoke(_price);
-
+    if(_curLives<=0)
+    {
+        Destroy();
+    }
 }
 void Brick::FixedUpdate()
 {
     Figure::FixedUpdate();
-    if(_curLives<=0)
-    {
-        delete this;
-    }
+}
+
+void Brick::Destroy() {
+    delete this;
 }

@@ -36,7 +36,7 @@ public:
     ~Ball();
     void StartMovement();
     GenericEvent<> OnLoss;
-    void ResetBall();
+    void ResetBall(int value);
 
 
 };

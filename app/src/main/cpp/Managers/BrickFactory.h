@@ -13,7 +13,7 @@ class BrickFactory {
 protected:
     JavaCppAdapter* _javaCppAdapter;
     GameManager* _gameManager;
-    std::list<Figure*> _bricks;
+    std::list<Brick*> _bricks;
     float _brickDecreasingCoef=0.9f;//to let space between bricks
     float _brickWidthToHeight=2;
     Vector2 _fieldSize;
@@ -24,12 +24,12 @@ protected:
     int _price=1;
     int _lives=1;
     void Generate();
-    Figure* CreateBrick(Vector2 position, Vector2 size, Color color,int price,int lives);
+    Brick* CreateBrick(Vector2 position, Vector2 size, Color color,int price,int lives);
     void Clear();
 
 public:
     BrickFactory(JavaCppAdapter* adapter, GameManager* gameManager, Vector2 fieldSize, int rows, int columns);
-    GenericEvent<Figure*> OnFigureCreation;
+    GenericEvent<Brick*> OnBrickCreation;
 
 };
 

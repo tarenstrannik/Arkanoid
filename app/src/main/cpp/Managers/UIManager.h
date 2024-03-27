@@ -17,9 +17,10 @@ private:
     int _startScore;
     void SetScore(int score);
     void SetLives(int lives);
-    void ResetUI();
+
 public:
     UIManager(JavaCppAdapter* adapter, GameManager* gameManager, int lives, int score);
+    void ResetUI();
 };
 
 
