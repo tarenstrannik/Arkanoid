@@ -123,11 +123,21 @@ void Ball::CheckCollision(Figure* figure)
         brick->Collide();
     }
 
-    if(ballLeft>=figureLeft&& ballRight<=figureRight)
+    if(ballLeft>=figureLeft&& ballRight<=figureRight
+        ||(ballRight-figureLeft>ballBottom-figureTop)
+        || (figureRight-ballLeft>ballBottom-figureTop)
+        ||(ballRight-figureLeft>figureBottom-ballTop)
+        || (figureRight-ballLeft>figureBottom-ballTop)
+    )
     {
         newVelocity=Vector2(curVelocity.x,-curVelocity.y);
     }
-    else if(ballBottom<=figureBottom && ballTop>=figureTop)
+    else if(ballBottom<=figureBottom && ballTop>=figureTop
+            ||(ballRight-figureLeft<ballBottom-figureTop)
+            || (figureRight-ballLeft<ballBottom-figureTop)
+            ||(ballRight-figureLeft<figureBottom-ballTop)
+            || (figureRight-ballLeft<figureBottom-ballTop)
+    )
     {
         newVelocity=Vector2(-curVelocity.x,curVelocity.y);
     }
