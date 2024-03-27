@@ -11,15 +11,16 @@ Brick::~Brick()
     Figure::~Figure();
 }
 
-Brick::Brick(JavaCppAdapter* adapter, GameManager* gameManager, int id, Shapes shape, Vector2 position, Vector2 size,
-             Color color, bool registerTouch, int price, int lives) : Figure(adapter, id, shape, position, size, color, registerTouch) {
+Brick::Brick(JavaCppAdapter* adapter, GameManager* gameManager, Parameters* parameters, int id, Vector2 position, Vector2 size
+             ) : Figure(adapter, id, parameters->_brickShape, position, size, parameters->_brickColor, false)
+             {
     _topBorder=position.y-_size.y/2;
     _bottomBorder=position.y+_size.y/2;
     _leftBorder=position.x-_size.x/2;
     _rightBorder=position.x+_size.x/2;
 
-    _price=price;
-    _curLives=lives;
+    _price=parameters->_brickPrice;
+    _curLives=parameters->_brickLives;
     OnCollision = GenericEvent<int>();
     OnDestroy = GenericEvent<Brick*>();
 }

@@ -5,7 +5,7 @@
 #include "MovableObject.h"
 
 MovableObject::MovableObject(
-               Vector2 fieldSize,
+               Vector2* fieldSize,
                Vector2 velocity,
                float deltaTime
                )

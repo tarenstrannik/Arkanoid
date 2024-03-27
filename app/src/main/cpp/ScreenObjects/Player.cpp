@@ -5,13 +5,14 @@
 #include "Player.h"
 #include "../Managers/GameManager.h"
 
-Player::Player(JavaCppAdapter *adapter, GameManager* gameManager, int id, Shapes shape, Vector2 position, Vector2 size,
-               Color color, bool registerTouch, Vector2 fieldSize, Vector2 prevPosition, Vector2 velocity, float deltaTime) :
-               Figure(adapter, id, shape, position, size, color, registerTouch), MovableObject(fieldSize,velocity,deltaTime)
+Player::Player(JavaCppAdapter *adapter, GameManager* gameManager, Parameters* parameters, int id,
+                Vector2 position, Vector2 size, Vector2* fieldSize, float deltaTime) :
+               Figure(adapter, id, parameters->_playerShape, position, size, parameters->_playerColor, true),
+               MovableObject(fieldSize,Vector2::zero(),deltaTime)
 
 {
     _gameManager=gameManager;
-    _prevPosition=prevPosition;
+    _prevPosition=position;
     _topBorder=position.y-_size.y/2;
     _bottomBorder=position.y+_size.y/2;
     _setPosition=Figure::_javaCppAdapter->OnTouch.Subscribe([this](Vector2 position) {
@@ -48,9 +49,9 @@ void Player::ConstraintRestrictions() {
     {
         SetPosition(Vector2(_size.x/2,_position.y));
     }
-    else if(_position.x>=_fieldSize.x-_size.x/2)
+    else if(_position.x>=_fieldSize->x-_size.x/2)
     {
-        SetPosition(Vector2(_fieldSize.x-_size.x/2,_position.y));
+        SetPosition(Vector2(_fieldSize->x-_size.x/2,_position.y));
     }
 }
 

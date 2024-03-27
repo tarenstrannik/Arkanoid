@@ -19,20 +19,16 @@ private:
     bool IsCollisionWithCeiling();
     bool IsCollisionWithFloor();
     CallbackID _startMovement;
-
-    float _startVelocityMagnitude;
-    float _velocityIncrement;
     void CheckCollision(Figure *Figure);
 
-    float _speedIncrement;
 protected:
+    Parameters* _parameters;
     void FixedUpdate() override;
     void ConstraintRestrictions() override;
 public:
     Ball(
-            JavaCppAdapter *adapter, GameManager* gameManager, int id, Shapes shape, Vector2 position, Vector2 size,
-            Color color, bool registerTouch, Vector2 fieldSize, Vector2 velocity,
-            float startVelocityMagnitude, float velocityIncrement, float deltaTime);
+            JavaCppAdapter *adapter, GameManager* gameManager, Parameters* parameters, int id, Vector2 position, Vector2 size,
+            Vector2* fieldSize, float deltaTime);
     ~Ball();
     void StartMovement();
     GenericEvent<> OnLoss;

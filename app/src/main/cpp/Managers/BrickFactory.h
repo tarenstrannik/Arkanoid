@@ -7,28 +7,23 @@
 
 
 #include "../ScreenObjects/Brick.h"
+#include "../Structures/Parameters.h"
 #include<list>
 
 class BrickFactory {
 protected:
     JavaCppAdapter* _javaCppAdapter;
     GameManager* _gameManager;
-    std::list<Brick*> _bricks;
-    float _brickDecreasingCoef=0.9f;//to let space between bricks
-    float _brickWidthToHeight=2;
-    Vector2 _fieldSize;
-    int _rows;
-    int _columns;
+    Parameters* _parameters;
+    Vector2* _fieldSize;
 
-    Color _color = Color(100,0,100);
-    int _price=1;
-    int _lives=1;
+    std::list<Brick*> _bricks;
     void Generate();
-    Brick* CreateBrick(Vector2 position, Vector2 size, Color color,int price,int lives);
+    Brick* CreateBrick(Vector2 position, Vector2 size);
     void Clear();
 
 public:
-    BrickFactory(JavaCppAdapter* adapter, GameManager* gameManager, Vector2 fieldSize, int rows, int columns);
+    BrickFactory(JavaCppAdapter* adapter, GameManager* gameManager, Parameters* parameters, Vector2* fieldSize);
     GenericEvent<Brick*> OnBrickCreation;
 
 };

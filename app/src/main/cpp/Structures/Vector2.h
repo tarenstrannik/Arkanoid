@@ -20,6 +20,8 @@ struct Vector2 {
     Vector2& operator-=(const Vector2& other);
     Vector2& operator*=(float scalar);
     Vector2& operator/=(float scalar);
+
+    static Vector2 zero();
 };
 
 #endif //ARKANOID_VECTOR2_H

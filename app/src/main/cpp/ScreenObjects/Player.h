@@ -7,6 +7,7 @@
 
 #include "../BaseClasses/Figure.h"
 #include "../BaseClasses/MovableObject.h"
+#include "../Structures/Parameters.h"
 
 class GameManager;
 class Player: public Figure, public MovableObject {
@@ -26,8 +27,8 @@ protected:
 
 public:
     Player(
-            JavaCppAdapter* adapter, GameManager* gameManager, int id, Shapes shape, Vector2 position, Vector2 size,
-            Color color, bool registerTouch, Vector2 fieldSize, Vector2 prevPosition, Vector2 velocity, float deltaTime);
+            JavaCppAdapter* adapter, GameManager* gameManager, Parameters* parameters, int id, Vector2 position, Vector2 size,
+            Vector2* fieldSize, float deltaTime);
     ~Player();
     float GetTopBorder() override;
     float GetBottomBorder() override;

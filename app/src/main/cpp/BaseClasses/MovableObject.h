@@ -10,13 +10,13 @@
 
 class MovableObject{
     protected:
-        Vector2 _fieldSize;
+        Vector2* _fieldSize;
         Vector2 _velocity;
         float _deltaTime;
 
     public:
-        MovableObject(
-                      Vector2 fieldSize=Vector2(0,0),
+        explicit MovableObject(
+                      Vector2* fieldSize,
                       Vector2 velocity =Vector2(0,0),
                       float deltaTime=1);
         virtual Vector2 GetVelocity();

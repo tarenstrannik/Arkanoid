@@ -5,12 +5,11 @@
 #include "UIManager.h"
 #include "GameManager.h"
 
-UIManager::UIManager(JavaCppAdapter* adapter, GameManager* gameManager, int lives, int score)
+UIManager::UIManager(JavaCppAdapter* adapter, GameManager* gameManager,Parameters* parameters)
 {
     _javaCppAdapter=adapter;
     _gameManager=gameManager;
-    _startScore=score;
-    _startLives=lives;
+    _parameters=parameters;
     _gameManager->OnRoundLoss.Subscribe([this](int lives) {
         SetLives(lives);
     });
@@ -32,6 +31,6 @@ void UIManager::SetLives(int lives)
 
 void UIManager::ResetUI()
 {
-    SetScore(_startScore);
-    SetLives(_startLives);
+    SetScore(_parameters->_playerScore);
+    SetLives(_parameters->_playerLives);
 }

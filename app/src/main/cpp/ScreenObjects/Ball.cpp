@@ -6,17 +6,15 @@
 #include "../StaticClasses/Random.h"
 #include "../Managers/GameManager.h"
 
-Ball::Ball(JavaCppAdapter *adapter, GameManager* gameManager, int id, Shapes shape, Vector2 position, Vector2 size,
-           Color color, bool registerTouch, Vector2 fieldSize, Vector2 velocity, float startVelocityMagnitude,
-           float velocityIncrement,
-           float deltaTime) :
-        Figure(adapter, id, shape, position, size, color, registerTouch), MovableObject(fieldSize,velocity,deltaTime)
+Ball::Ball(JavaCppAdapter *adapter, GameManager* gameManager,  Parameters* parameters,int id, Vector2 position, Vector2 size,
+           Vector2* fieldSize, float deltaTime) :
+        Figure(adapter, id, parameters->_ballShape, position, size, parameters->_ballColor, false),
+        MovableObject(fieldSize,Vector2::zero(),deltaTime)
 
 {
     _gameManager=gameManager;
-    _startVelocityMagnitude=startVelocityMagnitude;
+    _parameters=parameters;
     _fieldSize=fieldSize;
-    _velocityIncrement=velocityIncrement;
     OnLoss=GenericEvent<>();
 
     _gameManager->OnFigureCollisionCheck.Subscribe([this](Figure* figure){
@@ -64,8 +62,8 @@ void Ball::ConstraintRestrictions() {
 
 void Ball::StartMovement() {
     Figure::_javaCppAdapter->OnTouch.Unsubscribe(_startMovement);
-    auto velocityX= Random::Range(-_startVelocityMagnitude,_startVelocityMagnitude);
-    auto velocityY=sqrtf(pow(_startVelocityMagnitude,2) - pow(velocityX,2));
+    auto velocityX= Random::Range(-_parameters->_ballStartVelocityMagnitude,_parameters->_ballStartVelocityMagnitude);
+    auto velocityY=sqrtf(pow(_parameters->_ballStartVelocityMagnitude,2) - pow(velocityX,2));
     SetVelocity(Vector2(velocityX,-velocityY));
 }
 
@@ -75,7 +73,7 @@ void Ball::Move() {
 }
 
 bool Ball::IsCollisionWithWalls() {
-    return _position.x<=_size.x/2 || _position.x>=_fieldSize.x-_size.x/2;
+    return _position.x<=_size.x/2 || _position.x>=_fieldSize->x-_size.x/2;
 }
 
 bool Ball::IsCollisionWithCeiling() {
@@ -83,7 +81,7 @@ bool Ball::IsCollisionWithCeiling() {
 }
 
 bool Ball::IsCollisionWithFloor() {
-    return _position.y>=_fieldSize.y-_size.y/2;
+    return _position.y>=_fieldSize->y-_size.y/2;
 }
 
 void Ball::ResetBall(int value)
@@ -118,7 +116,7 @@ void Ball::CheckCollision(Figure* figure)
 
     if (Brick* brick = dynamic_cast<Brick*>(figure))
     {
-        curVelocity *=_velocityIncrement;
+        curVelocity *=_parameters->_ballVelocityIncrement;
         brick->Collide();
     }
 

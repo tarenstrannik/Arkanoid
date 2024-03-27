@@ -46,3 +46,7 @@ Vector2& Vector2::operator/=(float scalar) {
     y /= scalar;
     return *this;
 }
+
+Vector2 Vector2::zero() {
+    return {0,0};
+}

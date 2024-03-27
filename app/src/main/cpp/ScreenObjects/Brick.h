@@ -7,6 +7,7 @@
 
 
 #include "../BaseClasses/Figure.h"
+#include "../Structures/Parameters.h"
 
 
 class GameManager;
@@ -22,8 +23,7 @@ protected:
     void FixedUpdate() override;
 public:
     GenericEvent<Brick*> OnDestroy;
-    Brick(JavaCppAdapter* adapter, GameManager* gameManager, int id, Shapes shape, Vector2 position, Vector2 size,
-          Color color, bool registerTouch, int price, int lives);
+    Brick(JavaCppAdapter* adapter, GameManager* gameManager, Parameters* parameters, int id, Vector2 position, Vector2 size);
     ~Brick();
     float GetTopBorder() override;
     float GetBottomBorder() override;

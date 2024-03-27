@@ -41,6 +41,7 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
         Managers/UIManager.cpp
         StaticClasses/Random.cpp
         Managers/BrickFactory.cpp
+        Structures/Parameters.cpp
 )
 
 # Specifies libraries CMake should link to your target library. You
