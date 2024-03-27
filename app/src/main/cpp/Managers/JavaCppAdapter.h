@@ -29,6 +29,7 @@ public:
             bool registerTouch
     );
     void DestroyFigure(int id);
+    void PlaySound();
     JavaCppAdapter(JNIEnv* env, jobject activityObj);
     ~JavaCppAdapter();
 

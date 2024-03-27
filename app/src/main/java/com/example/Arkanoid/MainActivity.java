@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.FrameLayout;
@@ -23,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private UIManager _uiManager;
     private static final int _updateCycleDelayMs=16;
     private boolean _isGameWindowActive = true; // Флаг, указывающий на активность окна игры
-
+    private MediaPlayer _mediaPlayer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         com.example.Arkanoid.databinding.ActivityMainBinding _binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(_binding.getRoot());
+        _mediaPlayer = MediaPlayer.create(this, R.raw.beep);
         FrameLayout _container = findViewById(R.id.GameArea);
         _visualManager = new VisualManager( this, _container);
         _uiManager = new UIManager(this,_binding.LivesValue, _binding.ScoreValue);
@@ -72,6 +74,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         _handler.removeCallbacks(_updateRunnable);
+        if (_mediaPlayer != null) {
+            _mediaPlayer.release();
+            _mediaPlayer = null;
+        }
     }
 
     public void NativeUpdateScore(int score)
@@ -112,7 +118,13 @@ public class MainActivity extends AppCompatActivity {
     {
         _visualManager.SetFigurePosition(id, new Point(positionX,positionY));
     }
-
+    public void NativePlaySound() {
+        /*if (_mediaPlayer.isPlaying()) {
+            _mediaPlayer.stop();
+            _mediaPlayer.reset();
+        }*/
+        _mediaPlayer.start();
+    }
     public void NativeGameOver(int score)
     {
         _uiManager.DisplayGameOverScreen(score);

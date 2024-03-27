@@ -47,16 +47,21 @@ extern "C" JNIEXPORT void JNICALL
 }
 
 void JavaCppAdapter::UpdateScore(int newScore) {
-    // Вызов метода NativeUpdateScore в экземпляре MainActivity
+
     jclass clazz = g_env->GetObjectClass(g_mainActivityObj);
     jmethodID methodID = g_env->GetMethodID(clazz, "NativeUpdateScore", "(I)V");
     g_env->CallVoidMethod(g_mainActivityObj, methodID, newScore);
 }
 void JavaCppAdapter::UpdateLives(int newLives) {
-    // Вызов метода NativeUpdateLives в экземпляре MainActivity
+
     jclass clazz = g_env->GetObjectClass(g_mainActivityObj);
     jmethodID methodID = g_env->GetMethodID(clazz, "NativeUpdateLives", "(I)V");
     g_env->CallVoidMethod(g_mainActivityObj, methodID, newLives);
+}
+void JavaCppAdapter::PlaySound() {
+    jclass clazz = g_env->GetObjectClass(g_mainActivityObj);
+    jmethodID methodID = g_env->GetMethodID(clazz, "NativePlaySound", "()V");
+    g_env->CallVoidMethod(g_mainActivityObj, methodID);
 }
 extern "C" JNIEXPORT void JNICALL
 Java_com_example_Arkanoid_MainActivity_AdapterProcessTouch(JNIEnv *env, jobject , int x,

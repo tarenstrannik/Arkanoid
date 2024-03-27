@@ -46,7 +46,8 @@ void GameManager::FixedUpdate()
     {
         OnNewRound.Invoke();
     }
-    for (auto figure : _gameObjectsToCollideWith)
+    std::list<Figure*> checkObjects(_gameObjectsToCollideWith.begin(), _gameObjectsToCollideWith.end());
+    for (auto figure : checkObjects)
     {
         OnFigureCollisionCheck.Invoke(figure);
     }

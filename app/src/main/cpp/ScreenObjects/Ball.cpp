@@ -113,7 +113,7 @@ void Ball::CheckCollision(Figure* figure)
     {
         return;
     }
-
+    _javaCppAdapter->PlaySound();
     auto curVelocity= GetVelocity();
     Vector2 newVelocity=Vector2::zero();
 
