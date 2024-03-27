@@ -62,7 +62,10 @@ void Ball::ConstraintRestrictions() {
 
 void Ball::StartMovement() {
     Figure::_javaCppAdapter->OnTouch.Unsubscribe(_startMovement);
-    auto velocityX= Random::Range(-_parameters->_ballStartVelocityMagnitude,_parameters->_ballStartVelocityMagnitude);
+    float startXVelocityRange=_parameters->_ballStartVelocityMagnitude
+            * sin(M_PI* _parameters->_ballMaxStartAngleToVertical/180);
+
+    auto velocityX= Random::Range(-startXVelocityRange,startXVelocityRange);
     auto velocityY=sqrtf(pow(_parameters->_ballStartVelocityMagnitude,2) - pow(velocityX,2));
     SetVelocity(Vector2(velocityX,-velocityY));
 }
@@ -112,7 +115,7 @@ void Ball::CheckCollision(Figure* figure)
     }
 
     auto curVelocity= GetVelocity();
-    Vector2 newVelocity;
+    Vector2 newVelocity=Vector2::zero();
 
     if (Brick* brick = dynamic_cast<Brick*>(figure))
     {
@@ -124,7 +127,7 @@ void Ball::CheckCollision(Figure* figure)
     {
         newVelocity=Vector2(curVelocity.x,-curVelocity.y);
     }
-    else if(ballBottom<=figureBottom && ballTop>=ballTop)
+    else if(ballBottom<=figureBottom && ballTop>=figureTop)
     {
         newVelocity=Vector2(-curVelocity.x,curVelocity.y);
     }

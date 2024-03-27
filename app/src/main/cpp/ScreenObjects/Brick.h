@@ -23,7 +23,8 @@ protected:
     void FixedUpdate() override;
 public:
     GenericEvent<Brick*> OnDestroy;
-    Brick(JavaCppAdapter* adapter, GameManager* gameManager, Parameters* parameters, int id, Vector2 position, Vector2 size);
+    Brick(JavaCppAdapter* adapter, GameManager* gameManager, Parameters* parameters, int id,
+          Vector2 position, Vector2 size);
     ~Brick();
     float GetTopBorder() override;
     float GetBottomBorder() override;

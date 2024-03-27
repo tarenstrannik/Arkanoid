@@ -3,6 +3,7 @@
 
 #include <functional>
 #include <vector>
+#include <list>
 
 template<typename... Args>
 class GenericEvent {

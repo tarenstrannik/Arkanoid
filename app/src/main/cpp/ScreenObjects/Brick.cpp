@@ -11,8 +11,10 @@ Brick::~Brick()
     Figure::~Figure();
 }
 
-Brick::Brick(JavaCppAdapter* adapter, GameManager* gameManager, Parameters* parameters, int id, Vector2 position, Vector2 size
-             ) : Figure(adapter, id, parameters->_brickShape, position, size, parameters->_brickColor, false)
+Brick::Brick(JavaCppAdapter* adapter, GameManager* gameManager, Parameters* parameters, int id,
+             Vector2 position, Vector2 size
+             ) : Figure(adapter, id, parameters->_brickShape, position, size,
+                        parameters->_brickColor, false)
              {
     _topBorder=position.y-_size.y/2;
     _bottomBorder=position.y+_size.y/2;

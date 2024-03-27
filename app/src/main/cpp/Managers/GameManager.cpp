@@ -33,17 +33,19 @@ GameManager::GameManager(JavaCppAdapter* adapter, Vector2 fieldSize, float delta
     CreatePlayer();
     CreateBall();
     CreateBrickFactory();
+
 }
 void GameManager::FixedUpdate()
 {
     GameSceneObject::FixedUpdate();
-
-    if(_gameObjectsToCollideWith.size()==1 &&!_isGameOver)
+    if(_isGameOver)
+        return;
+    if(_player== nullptr && _ball== nullptr)
+        return;
+    if(!_isGameOver && _gameObjectsToCollideWith.size()==1)
     {
         OnNewRound.Invoke();
-        return;
     }
-
     for (auto figure : _gameObjectsToCollideWith)
     {
         OnFigureCollisionCheck.Invoke(figure);
@@ -100,7 +102,6 @@ void GameManager::PlayerLoss()
 void GameManager::CreateBrickFactory() {
     _brickFactory=new BrickFactory(_javaCppAdapter,this,_parameters,&_fieldSize);
     _brickFactory->OnBrickCreation.Subscribe([this](Figure* figure) {
-
         _gameObjectsToCollideWith.push_back(figure);
         if(Brick* brick = dynamic_cast<Brick*>(figure))
         {
@@ -115,8 +116,6 @@ void GameManager::CreateBrickFactory() {
             });
         };
     });
-
-
 }
 
 void GameManager::GameOver() {

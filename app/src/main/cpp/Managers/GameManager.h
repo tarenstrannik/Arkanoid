@@ -41,6 +41,7 @@ private:
     void RestartGame();
 
     bool _isGameOver=false;
+
 protected:
     void FixedUpdate() override;
 

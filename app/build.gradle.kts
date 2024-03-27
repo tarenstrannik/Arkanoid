@@ -9,7 +9,7 @@ android {
     defaultConfig {
         applicationId = "com.example.Arkanoid"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 28
         versionCode = 1
         versionName = "1.0"
 

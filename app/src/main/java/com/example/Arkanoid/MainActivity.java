@@ -2,6 +2,7 @@ package com.example.Arkanoid;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -21,10 +22,12 @@ public class MainActivity extends AppCompatActivity {
     private VisualManager _visualManager;
     private UIManager _uiManager;
     private static final int _updateCycleDelayMs=16;
+    private boolean _isGameWindowActive = true; // Флаг, указывающий на активность окна игры
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getSupportActionBar().hide();
 
         com.example.Arkanoid.databinding.ActivityMainBinding _binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -44,13 +47,26 @@ public class MainActivity extends AppCompatActivity {
         _updateRunnable = new Runnable() {
             @Override
             public void run() {
-                AdapterFixedUpdate();
+                if(_isGameWindowActive)
+                    AdapterFixedUpdate();
 
                 _handler.postDelayed(this, updateCycleDelay);
             }
         };
 
         _handler.postDelayed(_updateRunnable, updateCycleDelay);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        _isGameWindowActive = true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        _isGameWindowActive = false;
     }
     @Override
     protected void onDestroy() {

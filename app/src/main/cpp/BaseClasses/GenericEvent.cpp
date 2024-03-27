@@ -26,7 +26,9 @@ void GenericEvent<Args...>::UnsubscribeAll() {
 }
 template<typename... Args>
 void GenericEvent<Args...>::Invoke(Args... args) {
-    for (const auto& callback : _callbacks) {
+
+    std::list<EventCallback> listCallbacks(_callbacks.begin(), _callbacks.end());
+    for (const auto& callback : listCallbacks) {
         callback(args...);
     }
 }

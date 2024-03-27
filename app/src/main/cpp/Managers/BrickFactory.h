@@ -21,7 +21,6 @@ protected:
 public:
     BrickFactory(JavaCppAdapter* adapter, GameManager* gameManager, Parameters* parameters, Vector2* fieldSize);
     GenericEvent<Brick*> OnBrickCreation;
-
 };
 
 
