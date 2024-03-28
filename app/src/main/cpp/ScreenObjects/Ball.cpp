@@ -35,12 +35,12 @@ void Ball::FixedUpdate()
 {
     Figure::FixedUpdate();
     Move();
-    Ball::ConstraintRestrictions();
+    Ball::ConstraintPosition();
 }
 
 
-void Ball::ConstraintRestrictions() {
-    Figure::ConstraintRestrictions();
+void Ball::ConstraintPosition() {
+    Figure::ConstraintPosition();
     if(IsCollisionWithWalls())
     {
         auto velocity=GetVelocity();
@@ -100,6 +100,9 @@ bool Ball::CheckCollision(Figure* figure)
     float ballTop=GetPosition().y-_size.y/2;
     float ballBottom=GetPosition().y+_size.y/2;
 
+    Vector2 ballPosition=GetPosition();
+    Vector2 figurePosition=figure->GetPosition();
+
     float figureLeft=figure->GetLeftBorder();
     float figureRight=figure->GetRightBorder();;
     float figureTop=figure->GetTopBorder();;
@@ -120,33 +123,115 @@ bool Ball::CheckCollision(Figure* figure)
         brick->Collide();
     }
 
-    if(ballLeft>=figureLeft&& ballRight<=figureRight
-        ||(ballRight-figureLeft>ballBottom-figureTop)
-        || (figureRight-ballLeft>ballBottom-figureTop)
-        ||(ballRight-figureLeft>figureBottom-ballTop)
-        || (figureRight-ballLeft>figureBottom-ballTop)
-    )
+    if(curVelocity.y<0)
     {
-        newVelocity=Vector2(curVelocity.x,-curVelocity.y);
-    }
-    else if(ballBottom<=figureBottom && ballTop>=figureTop
-            ||(ballRight-figureLeft<ballBottom-figureTop)
-            || (figureRight-ballLeft<ballBottom-figureTop)
-            ||(ballRight-figureLeft<figureBottom-ballTop)
-            || (figureRight-ballLeft<figureBottom-ballTop)
-    )
-    {
-        newVelocity=Vector2(-curVelocity.x,curVelocity.y);
+        if(curVelocity.x>=0)
+        {
+            if(ballPosition.x>figurePosition.x)
+            {
+                newVelocity = Vector2(curVelocity.x, -curVelocity.y);
+            }
+            else if(ballPosition.y<figurePosition.y)
+            {
+                newVelocity = Vector2(-curVelocity.x, curVelocity.y);
+            }
+            else {
+                if ((ballLeft >= figureLeft && ballRight <= figureRight)
+                    || (ballRight - figureLeft > figureBottom - ballTop)) {
+                    newVelocity = Vector2(curVelocity.x, -curVelocity.y);
+                } else if (ballBottom <= figureBottom && ballTop >= figureTop
+                           || (ballRight - figureLeft < figureBottom - ballTop)) {
+                    newVelocity = Vector2(-curVelocity.x, curVelocity.y);
+                } else {
+                    newVelocity = -curVelocity;
+                }
+            }
+        }
+        else
+        {
+            if(ballPosition.x<figurePosition.x)
+            {
+                newVelocity = Vector2(curVelocity.x, -curVelocity.y);
+            }
+            else if(ballPosition.y<figurePosition.y)
+            {
+                newVelocity = Vector2(-curVelocity.x, curVelocity.y);
+            }
+            else {
+                if ((ballLeft >= figureLeft && ballRight <= figureRight)
+                    || (figureRight-ballLeft > figureBottom - ballTop)) {
+                    newVelocity = Vector2(curVelocity.x, -curVelocity.y);
+                } else if (ballBottom <= figureBottom && ballTop >= figureTop
+                           || (figureRight-ballLeft < figureBottom - ballTop)) {
+                    newVelocity = Vector2(-curVelocity.x, curVelocity.y);
+                } else {
+                    newVelocity = -curVelocity;
+                }
+            }
+        }
     }
     else
     {
-        newVelocity=-curVelocity;
+        if(curVelocity.x>=0)
+        {
+            if(ballPosition.x>figurePosition.x)
+            {
+                newVelocity = Vector2(curVelocity.x, -curVelocity.y);
+            }
+            else if(ballPosition.y>figurePosition.y)
+            {
+                newVelocity = Vector2(-curVelocity.x, curVelocity.y);
+            }
+            else {
+                if ((ballLeft >= figureLeft && ballRight <= figureRight)
+                    || (ballRight - figureLeft > ballBottom - figureTop)) {
+                    newVelocity = Vector2(curVelocity.x, -curVelocity.y);
+                } else if (ballBottom <= figureBottom && ballTop >= figureTop
+                           || (ballRight - figureLeft < ballBottom - figureTop)) {
+                    newVelocity = Vector2(-curVelocity.x, curVelocity.y);
+                } else {
+                    newVelocity = -curVelocity;
+                }
+            }
+        }
+        else
+        {
+            if(ballPosition.x<figurePosition.x)
+            {
+                newVelocity = Vector2(curVelocity.x, -curVelocity.y);
+            }
+            else if(ballPosition.y>figurePosition.y)
+            {
+                newVelocity = Vector2(-curVelocity.x, curVelocity.y);
+            }
+            else {
+                if ((ballLeft >= figureLeft && ballRight <= figureRight)
+                    || (figureRight - ballLeft > ballBottom - figureTop)) {
+                    newVelocity = Vector2(curVelocity.x, -curVelocity.y);
+                } else if (ballBottom <= figureBottom && ballTop >= figureTop
+                           || (figureRight - ballLeft < ballBottom - figureTop)) {
+                    newVelocity = Vector2(-curVelocity.x, curVelocity.y);
+                } else {
+                    newVelocity = -curVelocity;
+                }
+            }
+        }
     }
     if (MovableObject* movable = dynamic_cast<MovableObject*>(figure))
     {
         auto playerVelocity=movable->GetVelocity();
         newVelocity += movable->GetVelocity();
     }
+
+    //newVelocity=ConstraintVelocity(newVelocity);
+
     SetVelocity(newVelocity);
     return true;
+}
+Vector2 Ball::ConstraintVelocity(Vector2 velocity)
+{
+    Vector2 constrainedVelocity;
+    if(velocity.y<_parameters->_ballMinYVelocity)
+        constrainedVelocity = Vector2(velocity.x,_parameters->_ballMinYVelocity);
+    return constrainedVelocity;
 }

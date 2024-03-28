@@ -42,6 +42,7 @@ public:
     GenericEvent<int> OnCollision;
     float GetVelocityMultiplicator();
     virtual void ResetBrick();
+    void SetPosition(Vector2 position) override;
 };
 
 

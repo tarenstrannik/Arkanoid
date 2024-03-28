@@ -24,7 +24,8 @@ private:
 protected:
     Parameters* _parameters;
     void FixedUpdate() override;
-    void ConstraintRestrictions() override;
+    void ConstraintPosition() override;
+    Vector2 ConstraintVelocity(Vector2 velocity);
 public:
     Ball(
             JavaCppAdapter *adapter, GameManager* gameManager, Parameters* parameters, int id, Vector2 position, Vector2 size,
@@ -34,7 +35,6 @@ public:
     GenericEvent<> OnLoss;
     void ResetBall(int value);
     bool CheckCollision(Figure *Figure);
-
 };
 
 

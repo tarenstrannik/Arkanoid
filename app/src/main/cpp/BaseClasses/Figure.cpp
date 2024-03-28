@@ -48,7 +48,7 @@ Vector2 Figure::GetPosition() {
     return _position;
 }
 
-void Figure::ConstraintRestrictions() {
+void Figure::ConstraintPosition() {
 
 }
 

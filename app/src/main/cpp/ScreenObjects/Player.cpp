@@ -33,7 +33,7 @@ Player::~Player(){
 void Player::FixedUpdate()
 {
     Figure::FixedUpdate();
-    Player::ConstraintRestrictions();
+    Player::ConstraintPosition();
     Player::UpdateVelocity();
 }
 
@@ -43,8 +43,8 @@ void Player::SetPosition(Vector2 position)
     Figure::SetPosition(_position);
 }
 
-void Player::ConstraintRestrictions() {
-    Figure::ConstraintRestrictions();
+void Player::ConstraintPosition() {
+    Figure::ConstraintPosition();
     if(_position.x<=_size.x/2)
     {
         SetPosition(Vector2(_size.x/2,_position.y));

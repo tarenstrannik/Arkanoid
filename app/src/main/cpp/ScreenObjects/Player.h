@@ -23,7 +23,7 @@ private:
 protected:
     void FixedUpdate() override;
     void SetPosition(Vector2 position) override;
-    void ConstraintRestrictions() override;
+    void ConstraintPosition() override;
 
 public:
     Player(

@@ -67,4 +67,12 @@ void Brick::ResetBrick() {
     _curVelocityMultiplicator=_startVelocityMultiplicator;
 }
 
+void Brick::SetPosition(Vector2 position) {
+    Figure::SetPosition(position);
+    _topBorder=position.y-_size.y/2;
+    _bottomBorder=position.y+_size.y/2;
+    _leftBorder=position.x-_size.x/2;
+    _rightBorder=position.x+_size.x/2;
+}
+
 

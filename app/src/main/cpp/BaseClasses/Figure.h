@@ -22,9 +22,8 @@ class Figure: public GameSceneObject {
         bool _registerTouch;
         void FixedUpdate() override;
 
-        virtual Vector2 GetPosition();
         virtual Vector2 GetVisualPosition(Vector2 position);
-        virtual void ConstraintRestrictions();
+        virtual void ConstraintPosition();
         void SetColor(Color color);
     public:
         Figure(JavaCppAdapter* adapter,
@@ -41,6 +40,7 @@ class Figure: public GameSceneObject {
         virtual float GetRightBorder();
         virtual void SetActive(bool value);
         virtual void SetPosition(Vector2 position);
+        virtual Vector2 GetPosition();
         virtual bool IsActive();
 };
 
