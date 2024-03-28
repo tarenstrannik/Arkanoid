@@ -19,7 +19,7 @@ private:
     bool IsCollisionWithCeiling();
     bool IsCollisionWithFloor();
     CallbackID _startMovement;
-    void CheckCollision(Figure *Figure);
+
 
 protected:
     Parameters* _parameters;
@@ -33,7 +33,7 @@ public:
     void StartMovement();
     GenericEvent<> OnLoss;
     void ResetBall(int value);
-
+    bool CheckCollision(Figure *Figure);
 
 };
 

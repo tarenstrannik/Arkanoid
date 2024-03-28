@@ -52,7 +52,6 @@ public:
 
     GenericEvent<int> OnRoundLoss;
     GenericEvent<int> OnUpdateScore;
-    GenericEvent<Figure *> OnFigureCollisionCheck;
 
     void PlayerLoss();
     GenericEvent<> OnNewRound;

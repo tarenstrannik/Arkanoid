@@ -17,9 +17,6 @@ Ball::Ball(JavaCppAdapter *adapter, GameManager* gameManager,  Parameters* param
     _fieldSize=fieldSize;
     OnLoss=GenericEvent<>();
 
-    _gameManager->OnFigureCollisionCheck.Subscribe([this](Figure* figure){
-        CheckCollision(figure);
-    });
     _gameManager->OnNewRound.Subscribe([this](){
         ResetBall(0);
     });
@@ -96,7 +93,7 @@ void Ball::ResetBall(int value)
     });
 }
 
-void Ball::CheckCollision(Figure* figure)
+bool Ball::CheckCollision(Figure* figure)
 {
     float ballLeft=GetPosition().x-_size.x/2;
     float ballRight=GetPosition().x+_size.x/2;
@@ -111,7 +108,7 @@ void Ball::CheckCollision(Figure* figure)
 //coordinates from top edge of screen)
     if(ballRight<figureLeft || ballLeft>figureRight || ballTop >figureBottom || ballBottom<figureTop)
     {
-        return;
+        return false;
     }
     _javaCppAdapter->PlaySound();
     auto curVelocity= GetVelocity();
@@ -151,4 +148,5 @@ void Ball::CheckCollision(Figure* figure)
         newVelocity += movable->GetVelocity();
     }
     SetVelocity(newVelocity);
+    return true;
 }

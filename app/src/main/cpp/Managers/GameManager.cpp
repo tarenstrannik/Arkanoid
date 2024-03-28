@@ -21,7 +21,6 @@ GameManager::GameManager(JavaCppAdapter* adapter, Vector2 fieldSize, float delta
     _deltaTime=deltaTime;
     OnRoundLoss=GenericEvent<int>();
     OnUpdateScore=GenericEvent<int>();
-    OnFigureCollisionCheck= GenericEvent<Figure*>();
     OnNewRound = GenericEvent<>();
     OnGameOver = GenericEvent<>();
 
@@ -45,11 +44,15 @@ void GameManager::FixedUpdate()
     if(!_isGameOver && _gameObjectsToCollideWith.size()==1)
     {
         OnNewRound.Invoke();
+        return;
     }
+    bool isCollision=false;
     std::list<Figure*> checkObjects(_gameObjectsToCollideWith.begin(), _gameObjectsToCollideWith.end());
     for (auto figure : checkObjects)
     {
-        OnFigureCollisionCheck.Invoke(figure);
+        if(isCollision||_isGameOver)
+            return;
+        isCollision=_ball->CheckCollision(figure);
     }
 }
 void GameManager::CreateUIManager() {
