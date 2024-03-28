@@ -16,7 +16,7 @@ struct Parameters {
     float _playerStartPositionY = 0.9f;//from screen height
     Color _playerColor = Color(100, 100, 0);
     Shapes _playerShape=Shapes::RECTANGLE;
-    int _playerLives = 3;
+    int _playerLives = 1;
     int _playerScore = 0;
 
     //ball params

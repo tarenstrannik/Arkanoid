@@ -47,10 +47,10 @@ public class VisualManager {
         figure.setId(figureId);
 
         if(registerTouch)
-            CreateTouchListener(figure);
+            CreateInstructionsTouchListener(figure);
         _container.addView(figure);
     }
-    private void CreateTouchListener(View figure)
+    private void CreateGameTouchListener(View figure)
     {
         figure.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -63,6 +63,18 @@ public class VisualManager {
                 int globalY= (int)v.getY()+y;
                 _main.AdapterProcessTouch(globalX,globalY);
 
+                return true;
+            }
+        });
+    }
+    private void CreateInstructionsTouchListener(View figure)
+    {
+        figure.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                _main.NativeHideInstructions();
+                v.setOnTouchListener(null);
+                CreateGameTouchListener(figure);
                 return true;
             }
         });

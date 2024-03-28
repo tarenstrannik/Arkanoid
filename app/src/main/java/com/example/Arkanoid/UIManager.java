@@ -1,5 +1,6 @@
 package com.example.Arkanoid;
-import android.app.Dialog;
+
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,27 +12,27 @@ public class UIManager {
     private Context _context;
     private Button _restartButton;
     private Button _exitButton;
-    private Dialog _gameOverDialog;
-    private TextView _livesText,_scoreText;
-    public UIManager(Context context,TextView livesText, TextView scoreText)
+
+    private TextView _livesText,_scoreText,_startGameText;
+    private FrameLayout _gameOver;
+    public UIManager(Context context,TextView livesText, TextView scoreText,FrameLayout gameOver, TextView startGameText)
     {
         _main=(MainActivity) context;
         _context=context;
         _livesText=livesText;
         _scoreText=scoreText;
-        _gameOverDialog = new Dialog(context);
-        _gameOverDialog.setContentView(R.layout.game_over_layout);
-        _gameOverDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        _restartButton = _gameOverDialog.findViewById(R.id.restart_button);
+        _gameOver=gameOver;
+        _startGameText=startGameText;
+        _restartButton = gameOver.findViewById(R.id.restart_button);
         _restartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 _main.AdapterRestartGame();
-                _gameOverDialog.hide();
+                gameOver.setVisibility(View.GONE);
             }
         });
 
-        _exitButton = _gameOverDialog.findViewById(R.id.exit_button);
+        _exitButton = gameOver.findViewById(R.id.exit_button);
         _exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,11 +49,17 @@ public class UIManager {
     {
         _livesText.setText(String.valueOf(lives));
     }
-
+    public void HideInstruction()
+    {
+        FrameLayout frameLayout = ((Activity) _context).findViewById(R.id.GameArea);
+        if(_startGameText!=null)
+            frameLayout.removeView(_startGameText);
+        _startGameText=null;
+    }
     public void DisplayGameOverScreen(int score){
-        TextView scoreValueTextView = _gameOverDialog.findViewById(R.id.GameOverScoreValue);
+        TextView scoreValueTextView = _gameOver.findViewById(R.id.GameOverScoreValue);
         scoreValueTextView.setText(String.valueOf(score));
 
-        _gameOverDialog.show();
+        _gameOver.setVisibility(View.VISIBLE);
     }
 }

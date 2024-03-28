@@ -34,9 +34,10 @@ public class MainActivity extends AppCompatActivity {
         com.example.Arkanoid.databinding.ActivityMainBinding _binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(_binding.getRoot());
         _mediaPlayer = MediaPlayer.create(this, R.raw.beep);
-        FrameLayout _container = findViewById(R.id.GameArea);
-        _visualManager = new VisualManager( this, _container);
-        _uiManager = new UIManager(this,_binding.LivesValue, _binding.ScoreValue);
+        FrameLayout gameArea = findViewById(R.id.GameArea);
+        FrameLayout gameOver = findViewById(R.id.GameOverDialog);
+        _visualManager = new VisualManager( this, gameArea);
+        _uiManager = new UIManager(this,_binding.LivesValue, _binding.ScoreValue,gameOver,_binding.StartGameText);
         Point viewAreaSize = DisplayUtils.GetScreenSize(this);
         AdapterInitiateJavaCppAdapter();
         float deltaTime= (float) _updateCycleDelayMs /1000;
@@ -110,6 +111,9 @@ public class MainActivity extends AppCompatActivity {
                 Color.rgb(colorR,colorG,colorB),
                 registerTouch);
     }
+    public void NativeHideInstructions() {
+        _uiManager.HideInstruction();
+    }
     public void NativeSetFigureColor(int id, int colorR,int colorG,int colorB)
     {
         _visualManager.SetFigureColor(id,Color.rgb(colorR,colorG,colorB));
@@ -123,10 +127,6 @@ public class MainActivity extends AppCompatActivity {
         _visualManager.SetFigurePosition(id, new Point(positionX,positionY));
     }
     public void NativePlaySound() {
-        /*if (_mediaPlayer.isPlaying()) {
-            _mediaPlayer.stop();
-            _mediaPlayer.reset();
-        }*/
         _mediaPlayer.start();
     }
     public void NativeGameOver(int score)

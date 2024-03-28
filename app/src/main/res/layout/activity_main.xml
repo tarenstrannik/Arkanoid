@@ -6,6 +6,71 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
     <FrameLayout
+        android:id="@+id/GameOverDialog"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="top|start"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+        android:elevation="100dp"
+        android:background="#ffffff"
+        android:visibility="gone">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/GameOver"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|center_horizontal"
+                android:text="Game Over"
+                android:textSize="34sp" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:id="@+id/textsLayout">
+
+                <TextView
+                    android:id="@+id/GameOverScoreText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="You score:"
+                    android:textSize="24sp"
+                    android:layout_marginEnd="8dp" />
+
+                <TextView
+                    android:id="@+id/GameOverScoreValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="24sp" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/restart_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Restart" />
+
+            <Button
+                android:id="@+id/exit_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Exit" />
+
+        </LinearLayout>
+    </FrameLayout>
+    <FrameLayout
         android:id="@+id/UI"
         android:layout_width="match_parent"
         android:layout_height="24dp"
@@ -56,6 +121,14 @@
         android:layout_height="match_parent"
         android:layout_gravity="top|start"
         android:layout_marginTop="24dp">
+        <TextView
+            android:id="@+id/StartGameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:elevation="10dp"
+            android:text="Touch and move player's racket to start the game"
+            android:textSize="14sp" />
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
