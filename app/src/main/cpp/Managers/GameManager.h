@@ -19,6 +19,7 @@ class BrickFactory;
 class GameManager : public GameSceneObject {
 private:
     Vector2 _fieldSize;
+    Vector2 _fieldSizeForBall;
     float _deltaTime;
     int _lastId;
 

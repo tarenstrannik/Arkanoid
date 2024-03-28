@@ -65,6 +65,7 @@ void GameManager::CreatePlayer()
     auto playerYSize = playerXSize/_parameters->_playerWidthToHeight;
     auto playerX = _fieldSize.x*_parameters->_playerStartPositionX;
     auto playerY = _fieldSize.y*_parameters->_playerStartPositionY;
+    _fieldSizeForBall=Vector2(_fieldSize.x,playerY+playerYSize/2);
 
     _player = new Player(_javaCppAdapter, this,_parameters,playerID,
                    Vector2(playerX,playerY),Vector2(playerXSize,playerYSize),
@@ -78,10 +79,10 @@ void GameManager::CreateBall()
     auto ballYSize = ballXSize;
     auto ballX = _fieldSize.x*_parameters->_ballStartPositionX;
     auto ballY = _fieldSize.y*_parameters->_ballStartPositionY;
-
+    _fieldSizeForBall=Vector2(_fieldSizeForBall.x,_fieldSizeForBall.y+ballYSize);
     _ball = new Ball(_javaCppAdapter,this,_parameters,ballID,
                      Vector2(ballX,ballY),Vector2(ballXSize,ballYSize),
-                     &_fieldSize, _deltaTime);
+                     &_fieldSizeForBall, _deltaTime);
     _ball->OnLoss.Subscribe([this]() {
         PlayerLoss();
     });
