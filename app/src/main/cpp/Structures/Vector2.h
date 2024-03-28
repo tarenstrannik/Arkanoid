@@ -4,7 +4,7 @@
 
 #ifndef ARKANOID_VECTOR2_H
 #define ARKANOID_VECTOR2_H
-
+#include <math.h>
 struct Vector2 {
     float x;
     float y;
@@ -22,6 +22,8 @@ struct Vector2 {
     Vector2& operator/=(float scalar);
 
     static Vector2 zero();
+
+    float Magnitude();
 };
 
 #endif //ARKANOID_VECTOR2_H

@@ -27,14 +27,14 @@ struct Parameters {
     Color _ballColor = Color(0, 100, 255);
     float _ballStartVelocityMagnitude = 300.0f;
     float _ballMaxStartAngleToVertical=45.0f;
-    float _ballMinYVelocity=1.0f;
-    float _ballMaxVelocityMagnitude=10000.0f;
+    float _ballMinYVelocity=10.0f;
+    float _ballMaxVelocityMagnitude=2000.0f;
     //bricks factory params
-    int _rows = 1;
-    int _columns = 1;
+    int _rows = 5;
+    int _columns = 5;
 
     //bricks params
-    float _brickDecreasingCoef=0.5f;//to let space between bricks
+    float _brickDecreasingCoef=0.9f;//to let space between bricks
     float _brickWidthToHeight=2;
     Shapes _brickShape=Shapes::RECTANGLE;
     //rest brick params in brick.h files aka prefabs

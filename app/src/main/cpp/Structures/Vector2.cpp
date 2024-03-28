@@ -50,3 +50,7 @@ Vector2& Vector2::operator/=(float scalar) {
 Vector2 Vector2::zero() {
     return {0,0};
 }
+float Vector2::Magnitude()
+{
+    return sqrtf(x * x + y * y);
+};

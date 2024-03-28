@@ -223,15 +223,23 @@ bool Ball::CheckCollision(Figure* figure)
         newVelocity += movable->GetVelocity();
     }
 
-    //newVelocity=ConstraintVelocity(newVelocity);
+    newVelocity=ConstraintVelocity(newVelocity);
 
     SetVelocity(newVelocity);
     return true;
 }
 Vector2 Ball::ConstraintVelocity(Vector2 velocity)
 {
-    Vector2 constrainedVelocity;
-    if(velocity.y<_parameters->_ballMinYVelocity)
-        constrainedVelocity = Vector2(velocity.x,_parameters->_ballMinYVelocity);
+    Vector2 constrainedVelocity=velocity;
+    if(abs(velocity.y) <_parameters->_ballMinYVelocity) {
+        if (velocity.y >= 0)
+            constrainedVelocity = Vector2(velocity.x, _parameters->_ballMinYVelocity);
+        else
+            constrainedVelocity = Vector2(velocity.x, -_parameters->_ballMinYVelocity);
+    }
+    if(constrainedVelocity.Magnitude()>_parameters->_ballMaxVelocityMagnitude)
+    {
+        constrainedVelocity/=constrainedVelocity.Magnitude()/_parameters->_ballMaxVelocityMagnitude;
+    }
     return constrainedVelocity;
 }
