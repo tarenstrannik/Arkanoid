@@ -48,6 +48,8 @@ void Brick::Collide()
     {
         SetActive(false);
         OnDeactivation.Invoke(this);
+        OnDeactivation.UnsubscribeAll();
+        OnCollision.UnsubscribeAll();
     }
 }
 void Brick::FixedUpdate()
