@@ -18,7 +18,6 @@ private:
     bool IsCollisionWithWalls();
     bool IsCollisionWithCeiling();
     bool IsCollisionWithFloor();
-    bool IsOutOfBound();
     CallbackID _startMovement;
 
 

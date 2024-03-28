@@ -41,11 +41,8 @@ void Ball::FixedUpdate()
 
 void Ball::ConstraintPosition() {
     Figure::ConstraintPosition();
-    if(IsCollisionWithFloor()||IsOutOfBound())
-    {
-        OnLoss.Invoke();
-    }
-    else if(IsCollisionWithWalls())
+
+    if(IsCollisionWithWalls())
     {
         auto velocity=GetVelocity();
         SetVelocity(Vector2(-velocity.x,velocity.y));
@@ -54,6 +51,10 @@ void Ball::ConstraintPosition() {
     {
         auto velocity=GetVelocity();
         SetVelocity(Vector2(velocity.x,-velocity.y));
+    }
+    else if(IsCollisionWithFloor())
+    {
+        OnLoss.Invoke();
     }
 }
 
@@ -80,9 +81,7 @@ bool Ball::IsCollisionWithWalls() {
 bool Ball::IsCollisionWithCeiling() {
     return _position.y<=_size.y/2;
 }
-bool Ball::IsOutOfBound() {
-    return _position.x<0 || _position.x>_fieldSize->x || _position.y<0;
-}
+
 bool Ball::IsCollisionWithFloor() {
     return _position.y>=_fieldSize->y-_size.y/2;
 }
