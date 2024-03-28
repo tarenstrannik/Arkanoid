@@ -5,12 +5,6 @@
 #include "Brick.h"
 #include "../Managers/GameManager.h"
 
-Brick::~Brick()
-{
-    OnDestroy.Invoke(this);
-    Figure::~Figure();
-}
-
 Brick::Brick(JavaCppAdapter* adapter, GameManager* gameManager, Parameters* parameters, int id,
              Vector2 position, Vector2 size
              ) : Figure(adapter, id, parameters->_brickShape, position, size,
@@ -27,9 +21,9 @@ Brick::Brick(JavaCppAdapter* adapter, GameManager* gameManager, Parameters* para
     _curVelocityMultiplicator=_startVelocityMultiplicator;
 
     OnCollision = GenericEvent<int>();
-    OnDestroy = GenericEvent<Brick*>();
+    OnDeactivation = GenericEvent<Brick*>();
 }
-
+Brick::~Brick() = default;
 float Brick::GetTopBorder() {
     return _topBorder;
 }
@@ -52,7 +46,8 @@ void Brick::Collide()
     OnCollision.Invoke(_curPrice);
     if(_curLives<=0)
     {
-        Destroy();
+        SetActive(false);
+        OnDeactivation.Invoke(this);
     }
 }
 void Brick::FixedUpdate()
@@ -60,16 +55,16 @@ void Brick::FixedUpdate()
     Figure::FixedUpdate();
 }
 
-void Brick::Destroy() {
-    delete this;
-}
-
 float Brick::GetVelocityMultiplicator() {
     return _curVelocityMultiplicator;
 }
 
 void Brick::ResetBrick() {
+    SetActive(true);
     _curPrice=_startPrice;
     _curLives=_startLives;
-    _color=_startColor;
+    SetColor(_startColor);
+    _curVelocityMultiplicator=_startVelocityMultiplicator;
 }
+
+

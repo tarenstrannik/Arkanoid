@@ -10,14 +10,14 @@
 
 class Brick2Lives: public Brick {
 protected:
-    int _startPrice=2;
-    int _startLives=2;
-    Color _startColor=Color(255,255,0);
-    float _startVelocityMultiplicator=1.2f;
+    int _startPriceBrick2Lives=2;
+    int _startLivesBrick2Lives=2;
+    Color _startColorBrick2Lives=Color(255,255,0);
+    float _startVelocityMultiplicatorBrick2Lives=1.1f;
 
     int _priceWithOneLive=1;
     Color _colorWithOneLive=Color(100,0,100);
-    float _oneLiveVelocityMultiplicator=1.1f;
+    float _oneLiveVelocityMultiplicator=1.05f;
     void FixedUpdate() override;
 public:
     void ResetBrick() override;

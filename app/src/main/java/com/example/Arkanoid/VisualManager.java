@@ -94,6 +94,20 @@ public class VisualManager {
             figure.setBackgroundColor(color);
         }
     }
+    public void SetFigureActive(int figureId, boolean value)
+    {
+        View figure = _container.findViewById(figureId);
+        if (figure != null) {
+            if(value)
+            {
+                figure.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                figure.setVisibility(View.GONE);
+            }
+        }
+    }
     public void DestroyFigure(int figureId) {
         View figure = _container.findViewById(figureId);
         if (figure != null) {

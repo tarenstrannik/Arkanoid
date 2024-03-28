@@ -118,6 +118,10 @@ public class MainActivity extends AppCompatActivity {
     {
         _visualManager.SetFigureColor(id,Color.rgb(colorR,colorG,colorB));
     }
+    public void NativeSetFigureActive(int id, boolean value)
+    {
+        _visualManager.SetFigureActive(id,value);
+    }
     public void NativeDestroyFigure(int id)
     {
         _visualManager.DestroyFigure(id);

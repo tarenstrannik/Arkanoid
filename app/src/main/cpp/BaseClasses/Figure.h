@@ -13,6 +13,7 @@
 class Figure: public GameSceneObject {
     protected:
         int _id;
+        bool _isActive=true;
         Shapes _shape;
         Vector2 _position;
         Vector2 _startPosition;
@@ -20,7 +21,7 @@ class Figure: public GameSceneObject {
         Color _color;
         bool _registerTouch;
         void FixedUpdate() override;
-        virtual void SetPosition(Vector2 position);
+
         virtual Vector2 GetPosition();
         virtual Vector2 GetVisualPosition(Vector2 position);
         virtual void ConstraintRestrictions();
@@ -38,6 +39,9 @@ class Figure: public GameSceneObject {
         virtual float GetBottomBorder();
         virtual float GetLeftBorder();
         virtual float GetRightBorder();
+        virtual void SetActive(bool value);
+        virtual void SetPosition(Vector2 position);
+        virtual bool IsActive();
 };
 
 #endif //ARKANOID_FIGURE_H

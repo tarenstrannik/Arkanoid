@@ -6,8 +6,8 @@
 #define ARKANOID_PARAMETERS_H
 
 
-#include "Color.h"
-#include "../Enums/Shapes.h"
+#include "Structures/Color.h"
+#include "Enums/Shapes.h"
 
 struct Parameters {
     float _playerWidthFraction = 0.2f;//from screen
@@ -16,7 +16,7 @@ struct Parameters {
     float _playerStartPositionY = 0.9f;//from screen height
     Color _playerColor = Color(100, 100, 0);
     Shapes _playerShape=Shapes::RECTANGLE;
-    int _playerLives = 1;
+    int _playerLives = 3;
     int _playerScore = 0;
 
     //ball params
@@ -35,7 +35,7 @@ struct Parameters {
     float _brickDecreasingCoef=0.9f;//to let space between bricks
     float _brickWidthToHeight=2;
     Shapes _brickShape=Shapes::RECTANGLE;
-
+    //rest brick params in brick.h files aka prefabs
 };
 
 

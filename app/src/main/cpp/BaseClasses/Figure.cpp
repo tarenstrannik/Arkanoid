@@ -72,3 +72,12 @@ void Figure::SetColor(Color color) {
     _color=color;
     _javaCppAdapter->SetColor(_id,color);
 }
+
+void Figure::SetActive(bool value) {
+    _isActive=value;
+    _javaCppAdapter->SetActive(_id,value);
+}
+
+bool Figure::IsActive() {
+    return _isActive;
+}

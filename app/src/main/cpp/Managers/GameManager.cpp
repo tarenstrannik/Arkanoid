@@ -109,7 +109,7 @@ void GameManager::CreateBrickFactory() {
         _gameObjectsToCollideWith.push_back(figure);
         if(Brick* brick = dynamic_cast<Brick*>(figure))
         {
-            brick->OnDestroy.Subscribe([this](Figure* figure) {
+            brick->OnDeactivation.Subscribe([this](Figure* figure) {
                 _gameObjectsToCollideWith.erase(std::remove(_gameObjectsToCollideWith.begin(),
                                                             _gameObjectsToCollideWith.end(),
                                                             figure), _gameObjectsToCollideWith.end());

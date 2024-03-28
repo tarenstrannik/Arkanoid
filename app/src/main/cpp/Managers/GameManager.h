@@ -9,7 +9,7 @@
 #include "../Structures/Vector2.h"
 #include "../Enums/Shapes.h"
 #include "../ScreenObjects/Brick.h"
-#include "../Structures/Parameters.h"
+#include "../Parameters.h"
 
 class UIManager;
 class Player;

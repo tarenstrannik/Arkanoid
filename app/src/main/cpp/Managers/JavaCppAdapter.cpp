@@ -137,4 +137,17 @@ void JavaCppAdapter::SetColor(int id,Color color) {
     );
 }
 
+void JavaCppAdapter::SetActive(int id, bool value) {
+    jclass clazz = g_env->GetObjectClass(g_mainActivityObj);
+    jmethodID methodID = g_env->GetMethodID(clazz, "NativeSetFigureActive", "(IZ)V");
+    g_env->CallVoidMethod(g_mainActivityObj, methodID,
+                          id,
+                          value
+    );
+}
+
+JavaCppAdapter::~JavaCppAdapter() {
+
+}
+
 

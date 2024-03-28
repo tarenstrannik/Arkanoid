@@ -40,6 +40,7 @@ public:
     void GameOver(int score);
     void SetPosition(int id,Vector2 position);
     void SetColor(int id,Color color);
+    void SetActive(int id,bool value);
 };
 
 

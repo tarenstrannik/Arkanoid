@@ -7,7 +7,7 @@
 
 
 #include "../Managers/JavaCppAdapter.h"
-#include "../Structures/Parameters.h"
+#include "../Parameters.h"
 #include "../Managers/GameManager.h"
 
 class Manager {

@@ -2,14 +2,19 @@
 // Created by taren on 27.03.2024.
 //
 
-#include "Brick3Lives.h"
+#include "ScreenObjects/Brick3Lives.h"
 Brick3Lives::Brick3Lives(JavaCppAdapter* adapter, GameManager* gameManager, Parameters* parameters, int id,
              Vector2 position, Vector2 size):Brick(adapter, gameManager, parameters, id,
 position, size){
-    _curPrice=_startPrice;
-    _curLives=_startLives;
-    SetColor(_startColor);
-    _curVelocityMultiplicator=_startVelocityMultiplicator;
+    _curPrice=_startPriceBrick3Lives;
+    _curLives=_startLivesBrick3Lives;
+    SetColor(_startColorBrick3Lives);
+    _curVelocityMultiplicator=_startVelocityMultiplicatorBrick3Lives;
+
+    _startPrice=_startPriceBrick3Lives;
+    _startLives=_startLivesBrick3Lives;
+    _startColor=_startColorBrick3Lives;
+    _startVelocityMultiplicator=_startVelocityMultiplicatorBrick3Lives;
 };
 void Brick3Lives::FixedUpdate() {
     Brick::FixedUpdate();

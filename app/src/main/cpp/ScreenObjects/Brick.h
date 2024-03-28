@@ -7,7 +7,7 @@
 
 
 #include "../BaseClasses/Figure.h"
-#include "../Structures/Parameters.h"
+#include "../Parameters.h"
 
 
 class GameManager;
@@ -22,7 +22,7 @@ protected:
     int _startPrice=1;
     int _startLives=1;
     Color _startColor=Color(100,0,100);
-    float _startVelocityMultiplicator=1.1f;
+    float _startVelocityMultiplicator=1.05f;
 
     int _curPrice;
     int _curLives;
@@ -30,7 +30,7 @@ protected:
     void FixedUpdate() override;
 
 public:
-    GenericEvent<Brick*> OnDestroy;
+    GenericEvent<Brick*> OnDeactivation;
     Brick(JavaCppAdapter* adapter, GameManager* gameManager, Parameters* parameters, int id,
           Vector2 position, Vector2 size);
     ~Brick();
@@ -40,7 +40,6 @@ public:
     float GetRightBorder() override;
     virtual void Collide();
     GenericEvent<int> OnCollision;
-    void Destroy();
     float GetVelocityMultiplicator();
     virtual void ResetBrick();
 };

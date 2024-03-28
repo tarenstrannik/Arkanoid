@@ -40,11 +40,11 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
         ScreenObjects/Ball.cpp
         ScreenObjects/Brick.cpp
         ScreenObjects/Brick2Lives.cpp
-        ScreenObjects/Brick3Lives.cpp
+        Brick3Lives.cpp
         Managers/UIManager.cpp
         StaticClasses/Random.cpp
         Managers/BrickFactory.cpp
-        Structures/Parameters.cpp
+        Parameters.cpp
 )
 
 # Specifies libraries CMake should link to your target library. You

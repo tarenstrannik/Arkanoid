@@ -7,7 +7,7 @@
 
 #include "../BaseClasses/Figure.h"
 #include "../BaseClasses/MovableObject.h"
-#include "../Structures/Parameters.h"
+#include "../Parameters.h"
 
 class GameManager;
 class Player: public Figure, public MovableObject {

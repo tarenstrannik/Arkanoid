@@ -31,7 +31,7 @@ void BrickFactory::Generate()
         {
             Vector2 curPosition = Vector2(rowOffset * ((float) i + 0.5f),
                                           columnOffset * ( 0.5f));
-            CreateBrickOfType<Brick3Lives>(curPosition, brickSize);
+            PlaceBrick<Brick3Lives>(curPosition, brickSize);
         }
     }
     else if(_parameters->_rows==2)
@@ -41,9 +41,9 @@ void BrickFactory::Generate()
                 Vector2 curPosition = Vector2(rowOffset * ((float) j + 0.5f),
                                               columnOffset * ((float) i + 0.5f));
                 if(i==0)
-                    CreateBrickOfType<Brick3Lives>(curPosition, brickSize);
+                    PlaceBrick<Brick3Lives>(curPosition, brickSize);
                 else
-                    CreateBrickOfType<Brick2Lives>(curPosition, brickSize);
+                    PlaceBrick<Brick2Lives>(curPosition, brickSize);
             }
         }
 
@@ -58,46 +58,76 @@ void BrickFactory::Generate()
                 Vector2 curPosition = Vector2(rowOffset * ((float) j + 0.5f),
                                               columnOffset * ((float) i + 0.5f));
                 if(i<modifiedCount)
-                    CreateBrickOfType<Brick3Lives>(curPosition, brickSize);
+                    PlaceBrick<Brick3Lives>(curPosition, brickSize);
                 else if(i<2*modifiedCount)
-                    CreateBrickOfType<Brick2Lives>(curPosition, brickSize);
+                    PlaceBrick<Brick2Lives>(curPosition, brickSize);
                 else
-                    CreateBrickOfType<Brick>(curPosition, brickSize);
+                    PlaceBrick<Brick>(curPosition, brickSize);
             }
         }
 
     }
 }
 template<typename T>
-void BrickFactory::CreateBrickOfType(Vector2 position, Vector2 size) {
-    static_assert(std::is_base_of<Brick, T>::value, "T must be derived from Brick");
+void BrickFactory::PlaceBrick(Vector2 position, Vector2 size) {
 
-    Brick* brick = new T(_javaCppAdapter, _gameManager, _parameters,
-                         _gameManager->CreateObjectId(),
-                         position, size);
-    brick->OnDestroy.Subscribe([this](Brick* brick) {
+    Brick* brick = nullptr;
+    brick=GetBrickOfTypeFromPool<T>();
+    if(brick==nullptr)
+    {
+        brick=CreateBrickOfType<T>(position, size);
+        _pooledBricks.push_back(brick);
+    };
+    brick->SetPosition(position);
+    brick->OnDeactivation.Subscribe([this](Brick* brick) {
         RemoveBrickFromBricks(brick);
     });
-    _bricks.push_back(brick);
+    _activeBricks.push_back(brick);
 
     OnBrickCreation.Invoke(brick);
 }
+
+template<typename T>
+Brick* BrickFactory::GetBrickOfTypeFromPool() {
+    static_assert(std::is_base_of<Brick, T>::value, "T must be derived from Brick");
+
+    for(Brick* pooledBrick:_pooledBricks)
+    {
+        T* typedBrick = dynamic_cast<T*>(pooledBrick);
+        if (typedBrick != nullptr && !typedBrick->IsActive()) {
+            typedBrick->ResetBrick();
+            return pooledBrick;
+        }
+    }
+    return nullptr;
+}
+template<typename T>
+Brick* BrickFactory::CreateBrickOfType(Vector2 position, Vector2 size) {
+    static_assert(std::is_base_of<Brick, T>::value, "T must be derived from Brick");
+    return new T(_javaCppAdapter, _gameManager, _parameters,
+                         _gameManager->CreateObjectId(),
+                         position, size);
+}
+
+
 void BrickFactory::RemoveBrickFromBricks(Brick* brick)
 {
-    auto it = std::find(_bricks.begin(), _bricks.end(), brick);
-    if (it != _bricks.end()) {
-        _bricks.erase(std::remove(_bricks.begin(), _bricks.end(), brick), _bricks.end());
+    auto it = std::find(_activeBricks.begin(), _activeBricks.end(), brick);
+    if (it != _activeBricks.end()) {
+        _activeBricks.erase(std::remove(_activeBricks.begin(), _activeBricks.end(), brick), _activeBricks.end());
     }
 }
 
 void BrickFactory::Clear() {
-    while(!_bricks.empty())
+    while(!_activeBricks.empty())
     {
-        auto brick=_bricks.back();
-        _bricks.pop_back();
-        brick->Destroy();
+        auto brick=_activeBricks.back();
+        _activeBricks.pop_back();
+        brick->SetActive(false);
     }
 }
+
+
 
 
 

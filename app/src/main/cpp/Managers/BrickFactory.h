@@ -15,12 +15,17 @@
 class BrickFactory: public Manager {
 protected:
     Vector2* _fieldSize;
-    std::list<Brick*> _bricks;
+    std::list<Brick*> _activeBricks;
+    std::list<Brick*> _pooledBricks;
     void Generate();
     void Clear();
     void RemoveBrickFromBricks(Brick *brick);
     template<typename T>
-    void CreateBrickOfType(Vector2 position, Vector2 size);
+    Brick* CreateBrickOfType(Vector2 position, Vector2 size);
+    template<typename T>
+    Brick* GetBrickOfTypeFromPool();
+    template<typename T>
+    void PlaceBrick(Vector2 position, Vector2 size);
 public:
     BrickFactory(JavaCppAdapter* adapter, GameManager* gameManager, Parameters* parameters, Vector2* fieldSize);
     GenericEvent<Brick*> OnBrickCreation;
