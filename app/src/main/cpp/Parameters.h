@@ -27,7 +27,7 @@ struct Parameters {
     Color _ballColor = Color(0, 100, 255);
     float _ballStartVelocityMagnitude = 300.0f;
     float _ballMaxStartAngleToVertical=45.0f;
-    float _ballMinYVelocity=10.0f;
+    float _ballMinYVelocity=50.0f;
     float _ballMaxVelocityMagnitude=2000.0f;
     //bricks factory params
     int _rows = 5;
